@@ -1,6 +1,6 @@
 # Heat Equation with a Dynamical Singular Potential on the Boundary
 
-Interactive mathematical exposition — V5.1 source refactor. The site retains the accepted editorial design, fourteen chapters, six appendices, theorem catalogue, bibliography, and scientific experiments.
+Interactive mathematical exposition — V5.2 mobile stability update. The site retains the accepted editorial design, fourteen chapters, six appendices, theorem catalogue, bibliography, and scientific experiments.
 
 ## Preview locally
 
@@ -44,6 +44,12 @@ Open <http://localhost:8000> in a browser. The server only serves static files. 
 ```
 
 The `src/content/` files are **HTML fragments**, not independent browser pages. The generated index assembles them at build time. This is intentional: the original global navigation, cross-references, math renderer, and shared figure functions depend on the full document and original script order. Each chapter is now independently editable without duplicating navigation or changing the reader experience. There is no runtime fetching of article fragments. A future multi-page redesign is possible, but requires isolating figure initialization and remapping links; it is not part of this preservation refactor.
+
+## Mobile rendering
+
+MathJax typesets approaching article content in batches. Figure controls retain their state when off-screen canvases are released. The PDE starts near its figure, and the contents drawer uses a separate navigation landmark from the previous/next chapter links.
+
+See [the mobile performance audit](MOBILE_PERFORMANCE_AUDIT.md) for Chromium benchmarks, the architecture comparison and physical-iPhone acceptance checks.
 
 ## Common maintenance tasks
 
@@ -109,6 +115,9 @@ Install Playwright in your local Python environment and its Chromium browser:
 python3 -m pip install playwright
 python3 -m playwright install chromium
 python3 tools/browser_smoke.py
+# Use a system Chromium or select an installed Playwright engine.
+python3 tools/browser_smoke.py --chromium /usr/bin/chromium
+python3 tools/browser_smoke.py --browser webkit
 ```
 
 The smoke test uses a temporary local HTTP server at a repository-like subpath. It checks rendering, data, animation controls, navigation, mobile widths and the PDE worker. Use `--embedded-assets` only when the browser environment blocks HTTP navigation; this loads the same files through data URLs and does not verify an actual deployment. See `VERIFICATION.md` for the checks run during the refactor.

@@ -11,5 +11,12 @@ function multi(){let d=v('multi13v'),e=v('multi13eps'),ratio=v('multi13lambda'),
 function geo(){let r=10**(-v('geo13v')),k=v('geo13curv');let p=graph('geo13plot',-2,2,-1.7,1.7,'Rescaled tangential coordinate X','Rescaled height Z');if(p){p.curve(()=>0,gray,[4,4]);p.curve(x=>k*r*x*x/2,blue)}let orig=graph('geo13original',-2,2,-1.7,1.7,'Original tangential coordinate','Original height');if(orig){orig.curve(()=>0,gray,[4,4]);orig.curve(x=>k*x*x/2,blue);orig.vline(-2*r,gray);orig.vline(2*r,gray)}txt('geo13read',`Scale r=${r.toExponential(2)} · maximum |Z| on |X|≤2 = ${(2*Math.abs(k)*r).toPrecision(4)}. Geometry flattens under zoom.`)}
 const figs=[['rough13',rough,['rough13v','rough13gamma','rough13a']],['critical13',critical,['critical13v','critical13b']],['lower13',lower,['lower13v','lower13ratio']],['data13',data,['data13v','data13k']],['shift13',shift,['shift13v','shift13eps']],['multi13',multi,['multi13v','multi13eps','multi13lambda']],['geo13',geo,['geo13v','geo13curv']]];
 for(const [pre,draw,inputs] of figs){const defaults=inputs.map(id=>$(id).value);function redraw(){for(const id of inputs)txt(id+'out',Number($(id).value).toFixed(2));draw()}for(const id of inputs)$(id).addEventListener('input',redraw);$(pre+'reset').onclick=()=>{inputs.forEach((id,i)=>$(id).value=defaults[i]);redraw()};registerPlayer(pre+'play',pre+'reset',pre+'v',redraw,{inputs,interval:65,name:pre});redraw()}
-let timer;addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(()=>figs.forEach(f=>f[1]()),100)});
+
+watchPlots(rough, 'rough13plot', 'rough13path');
+watchPlots(critical, 'critical13plot', 'critical13energy');
+watchPlots(lower, 'lower13plot');
+watchPlots(data, 'data13plot');
+watchPlots(shift, 'shift13plot');
+watchPlots(multi, 'multi13plot');
+watchPlots(geo, 'geo13plot', 'geo13original');
 })();

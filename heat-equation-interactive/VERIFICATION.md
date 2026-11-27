@@ -1,4 +1,16 @@
-# Refactor verification
+# Verification
+
+## V5.2 mobile stability
+
+- `python3 build.py --check` passed with 1,117 unique source IDs, 528 internal links and 52 local CSS/JavaScript references. The generated site is served from the same `docs/` directory used by the existing Pages workflow.
+- The Chromium 156 smoke test ran over HTTP at the repository URL prefix. Viewports of 320, 375, 390, 430, 768, 1024 and 1440 CSS pixels passed the page-width check. The viewport changes exercised responsive resizing in desktop Chromium.
+- Verified cold-load deferral, canvas release and reinitialization, drawer scrolling and Escape dismissal, search, proof disclosures, fragment links to a late theorem and equation, repeated chapter jumps, previous/next navigation, playback and simulated backgrounding, fixed-horizon PDE worker release, the temperature/difference switch and the deferred Monte Carlo field.
+- The full render still contains 3,357 mathematical expressions with zero MathJax errors, 74 figures, 54 working playback controls and 14 chapters. The Chapter 11 browser data equals the exported dataset. The benchmark compares the complete default 61-frame PDE result and the seeded Monte Carlo readout against V5.1.
+- Browser downloads for Playwright Firefox and WebKit returned HTTP 403 from the environment network policy. Desktop WebKit and physical iPhone Safari and Slack were not exercised. The results do not establish that the reported iOS crashes are resolved.
+
+See [the audit](MOBILE_PERFORMANCE_AUDIT.md) for benchmark methods, architecture tradeoffs and physical-iPhone checks.
+
+## Historical V5.1 refactor verification
 
 Baseline: accepted V5.1 Editorial Polish standalone HTML.
 

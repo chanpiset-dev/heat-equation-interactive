@@ -27,3 +27,31 @@ nav#toc{font:13px/1.45 var(--ui);top:58px;height:calc(100dvh - 58px);padding:22p
 @media(min-width:761px) and (max-width:1000px){main{padding:35px 30px 70px}.hero h1{font-size:42px}.twocol,.triple,#fig-pde .pdeplots{grid-template-columns:repeat(2,minmax(0,1fr))}#fig-pde .pdeplots canvas{height:245px}.twocol canvas{height:245px}}
 @media(max-width:1000px){nav#toc{top:56px;width:min(360px,92vw);height:calc(100dvh - 56px);overflow-y:auto}nav#toc a,nav#toc summary{min-height:44px}#toc .toc-chapter50>summary a.toc-start50{min-height:32px}header .menu{min-height:44px}#readingProgress51{display:none}.eq .copy,.eq .anchor{opacity:.8}figure .controls input[type=range]{min-height:44px}figure .controls button,figure .controls select,figure .lab-controls button,figure .lab-controls select,figure button{min-height:44px}}
 @media(hover:none){.eq .copy,.eq .anchor{opacity:.8}}@media(max-width:390px){header .comparebar>a{display:none}.chapter-step51{gap:12px}.pde-view51{flex-wrap:wrap}}@media print{.chapter-step51,#readingProgress51,.pde-view51{display:none!important}}
+
+/* Reserve chart space with the existing canvas dimensions before drawing. */
+figure canvas { background: var(--paper); }
+@media (max-width: 1000px) {
+ nav#toc {
+  top: var(--header-height, 56px);
+  bottom: 0;
+  height: auto;
+  padding-bottom: calc(19px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(19px, env(safe-area-inset-left, 0px));
+ }
+ .toc-shade50:not([hidden]) { top: var(--header-height, 56px); }
+}
+@media (min-width: 1001px) {
+ nav#toc {
+  top: var(--header-height, 58px);
+  height: calc(100vh - var(--header-height, 58px));
+  height: calc(100dvh - var(--header-height, 58px));
+ }
+}
+
+/* Unrendered TeX can contain long tokens in lists, proofs and table cells. */
+article { overflow-wrap: anywhere; }
+article mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+@media (max-width: 1000px) {
+ article .lab-row label, article .lab-row select { min-width: 0; max-width: 100%; }
+ article mjx-container:not([display="true"]) { max-width: 100%; overflow-x: auto; overflow-y: hidden; }
+}
