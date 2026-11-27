@@ -23,11 +23,19 @@ function sens(){curves('n11sensitivity',D[el('n11study').value],val('n11smetric'
 function ref(){curves('n11refplot',D.refine,val('n11rmetric'),'n11rlegend')}
 function domain(){curves('n11domain',D.domain,0,'n11dlegend')}
 function benchmark(){let r=D.bench[val('n11bmesh')],exact=z=>Math.exp(.7**2*.28-.7*z),p=graph('n11bench',0,2,0,1.2,'Height z','Temperature');if(p){p.curve(exact,C[0]);p.curve(x=>interp(r.z,r.u,x),C[2],[4,3])}el('n11berr').textContent=`Terminal maximum grid error = ${r.error.toExponential(6)} · blue: exact; dashed green: finite differences`}
-function match(){let rows=D.matched.values,k=val('n11probe'),r=rows[k],p=graph('n11match',0,2,0,1.25,'Observation height z','Temperature');el('n11probeout').textContent=r[0].toFixed(2);let fd=D.bench[1].u[k];el('n11matchread').textContent=`Exact ${r[3].toFixed(5)} · FD ${fd.toFixed(5)} · Monte Carlo ${r[1].toFixed(5)} ± ${(2*r[2]).toFixed(5)} (2 SE)`;if(!p)return;p.curve(z=>Math.exp(.7**2*.28-.7*z),C[0]);p.curve(z=>interp(D.bench[1].z,D.bench[1].u,z),C[2],[4,3]);const {g,X,Y}=p;g.strokeStyle=C[1];g.fillStyle=C[1];for(let [z,m,se] of rows){g.beginPath();g.moveTo(X(z),Y(m-2*se));g.lineTo(X(z),Y(m+2*se));g.stroke();g.beginPath();g.arc(X(z),Y(m),2.6,0,Math.PI*2);g.fill()}p.vline(r[0],'#53636b')}
+function match(){let rows=D.matched.values,k=val('n11probe'),r=rows[k],p=graph('n11match',0,2,0,1.25,'Observation height z','Temperature');el('n11probeout').textContent=r[0].toFixed(2);let fd=D.bench[1].u[k];el('n11matchread').textContent=`Exact ${r[3].toFixed(5)} · FD ${fd.toFixed(5)} · Monte Carlo ${r[1].toFixed(5)} ± ${(2*r[2]).toFixed(5)} (2 SE) · theoretical SE ${r[4].toFixed(5)}`;if(!p)return;p.curve(z=>Math.exp(.7**2*.28-.7*z),C[0]);p.curve(z=>interp(D.bench[1].z,D.bench[1].u,z),C[2],[4,3]);const {g,X,Y}=p;g.strokeStyle=C[1];g.fillStyle=C[1];for(let [z,m,se] of rows){g.beginPath();g.moveTo(X(z),Y(m-2*se));g.lineTo(X(z),Y(m+2*se));g.stroke();g.beginPath();g.arc(X(z),Y(m),2.6,0,Math.PI*2);g.fill()}p.vline(r[0],'#53636b')}
 function cells(id,rows){el(id).replaceChildren(...rows.map(row=>{let tr=document.createElement('tr');row.forEach(a=>{let td=document.createElement('td');td.textContent=a;tr.append(td)});return tr}))}
 cells('n11refrows',D.refine.map(r=>[r.h,r.dt,...r.d.at(-1).slice(0,3).map(x=>x.toFixed(7))]));cells('n11drows',D.domain.map(r=>[r.label,r.d.at(-1)[0].toFixed(6),r.probe.toFixed(6)]));cells('n11brows',D.bench.map((r,i)=>[r.h,r.dt,r.error.toExponential(5),i>0&&i<4?Math.log2(D.bench[i-1].error/r.error).toFixed(3):'—']));D.bench.forEach((r,i)=>{let o=document.createElement('option');o.value=i;o.textContent=`Spacing ${r.h} · step ${r.dt}`;el('n11bmesh').append(o)});el('n11bmesh').value='1';
 for(let [id,fn] of [['n11time',drawRepro],['n11view',drawRepro],['n11V',stencil],['n11above',stencil],['n11metric',diag],['n11study',sens],['n11smetric',sens],['n11rmetric',ref],['n11bmesh',benchmark],['n11probe',match]])el(id).addEventListener('input',fn);
 el('n11reset').onclick=()=>{el('n11time').value=0;el('n11view').value=1;drawRepro()};el('n11streset').onclick=()=>{el('n11V').value=.5;el('n11above').value=.8;stencil()};registerPlayer('n11play','n11reset','n11time',drawRepro,{name:'Manuscript fields',interval:220});el('n11download').onclick=()=>{let a=document.createElement('a'),url=URL.createObjectURL(new Blob([JSON.stringify(D)],{type:'application/json'}));a.href=url;a.download='numerical_investigations_v3_3.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
-function drawAll(){drawRepro();stencil();diag();sens();ref();benchmark();domain();match()}window.addEventListener('resize',drawAll);drawAll();window.v32Audit={data:D,drawAll};
+function drawAll(){drawRepro();stencil();diag();sens();ref();benchmark();domain();match()}window.v32Audit={data:D,drawAll};
+watchPlots(drawRepro, 'n11fixed', 'n11moving');
+watchPlots(stencil, 'n11stencil');
+watchPlots(diag, 'n11diag');
+watchPlots(sens, 'n11sensitivity');
+watchPlots(ref, 'n11refplot');
+watchPlots(domain, 'n11domain');
+watchPlots(benchmark, 'n11bench');
+watchPlots(match, 'n11match');
 })();
 

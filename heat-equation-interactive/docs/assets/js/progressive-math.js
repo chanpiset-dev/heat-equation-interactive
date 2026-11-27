@@ -1,0 +1,68 @@
+(() => {
+    const article = document.querySelector('article');
+    const pending = new Set();
+    let running = false;
+    const observer = new IntersectionObserver(entries => {
+        for (const {target, isIntersecting, intersectionRect} of entries) {
+            if (isIntersecting && intersectionRect.height > 0) pending.add(target);
+            else pending.delete(target);
+        }
+        schedule();
+    }, {rootMargin: '350px 0px'});
+
+    function schedule() {
+        if (running || !pending.size || document.hidden) return;
+        running = true;
+        requestAnimationFrame(renderBatch);
+    }
+
+    async function renderBatch() {
+        try {
+            if (document.hidden) return;
+            const heading = document.getElementById(location.hash.slice(1));
+            const batch = [...pending].map(node => {
+                const {top, bottom} = node.getBoundingClientRect();
+                const distance = heading && (node.contains(heading) || heading.contains(node))
+                    ? -1 : Math.max(0, top - innerHeight, -bottom);
+                return {node, distance};
+            }).sort((a, b) => a.distance - b.distance).slice(0, 8).map(item => item.node);
+            const roots = batch.filter(node => !batch.some(other => other !== node && node.contains(other)));
+            if (!batch.length) return;
+            for (const node of roots) {
+                observer.unobserve(node);
+                pending.delete(node);
+            }
+            await MathJax.typesetPromise(roots);
+            document.dispatchEvent(new CustomEvent('articlemathrendered', {detail: roots}));
+        } catch (error) {
+            console.error('Unable to typeset article math', error);
+        } finally {
+            running = false;
+            schedule();
+        }
+    }
+
+    // Find complete TeX spans with the same delimiter parser MathJax uses. A root
+    // can contain another root, so only queue each container once.
+    MathJax.startup.promise.then(() => {
+        const doc = MathJax.startup.document;
+        doc.findMath({elements: [article]});
+        const roots = new Set();
+        for (const item of doc.math) {
+            let root = item.start.node.parentElement;
+            while (!root.contains(item.end.node)) root = root.parentElement;
+            roots.add(root.closest('.eq') || root);
+        }
+        doc.clear().reset();
+        for (const root of roots) observer.observe(root);
+        const target = document.getElementById(location.hash.slice(1));
+        if (target) target.scrollIntoView({behavior: 'instant'});
+    });
+    window.addEventListener('beforeprint', () => {
+        if (!MathJax.startup.document) return;
+        MathJax.typeset([article]);
+        observer.disconnect();
+        pending.clear();
+    });
+    document.addEventListener('visibilitychange', schedule);
+})();

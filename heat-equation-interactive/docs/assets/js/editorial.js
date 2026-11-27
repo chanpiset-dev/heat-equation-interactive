@@ -1,6 +1,10 @@
 
 (()=>{
  const navEl=document.getElementById('toc'), menuEl=document.getElementById('menu');
+ const header=document.querySelector('header');
+ new ResizeObserver(() => {
+  document.documentElement.style.setProperty('--header-height', header.offsetHeight+'px');
+ }).observe(header);
  const make=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt)e.textContent=txt;return e};
  // Keep all existing navigation anchors, and group them around the current chapter.
  const originalLinks=Array.from(navEl.querySelectorAll('a[href^="#"]'));
@@ -44,7 +48,7 @@
  let n=0;for(const f of document.querySelectorAll('article figure')){const title=f.querySelector('.figuretitle'),cap=f.querySelector('figcaption');n++;if(title){title.id=title.id||'editorial-figure-title-'+n;f.setAttribute('aria-labelledby',title.id);}if(cap){cap.id=cap.id||'editorial-figure-caption-'+n;}for(const c of f.querySelectorAll('canvas')){c.setAttribute('role','img');if(cap)c.setAttribute('aria-describedby',cap.id);if(!c.textContent.trim())c.textContent=c.getAttribute('aria-label')||'Scientific plot. See the figure caption.';}}
  // Make wide tables and equation scrollers keyboard reachable only when overflow is present.
  for(const table of document.querySelectorAll('article table')){if(table.parentElement.matches('.reference-table40,.ch11-table,.editorial-table'))continue;const wrapper=make('div','editorial-table');table.before(wrapper);wrapper.append(table);}
- const updateOverflow=()=>{for(const e of document.querySelectorAll('.eq,.editorial-table,.reference-table40,.ch11-table')){if(!e.getClientRects().length)continue;if(e.scrollWidth>e.clientWidth+2){e.tabIndex=0;e.dataset.overflow51='';e.setAttribute('role','region');e.setAttribute('aria-label',e.classList.contains('eq')?'Scrollable equation':'Scrollable table');}else{delete e.dataset.overflow51;e.removeAttribute('tabindex');e.removeAttribute('role');e.removeAttribute('aria-label');}}};let resizeDelay;window.addEventListener('resize',()=>{clearTimeout(resizeDelay);resizeDelay=setTimeout(updateOverflow,250)});document.addEventListener('toggle',()=>{clearTimeout(resizeDelay);resizeDelay=setTimeout(updateOverflow,250)},true);Promise.resolve(window.MathJax?.startup?.promise).then(updateOverflow);
+ const overflowSelector='.eq,.editorial-table,.reference-table40,.ch11-table';const updateOverflow=(root=document)=>{for(const e of root.matches?.(overflowSelector)?[root]:root.querySelectorAll(overflowSelector)){if(!e.getClientRects().length)continue;if(e.scrollWidth>e.clientWidth+2){e.tabIndex=0;e.dataset.overflow51='';e.setAttribute('role','region');e.setAttribute('aria-label',e.classList.contains('eq')?'Scrollable equation':'Scrollable table');}else{delete e.dataset.overflow51;e.removeAttribute('tabindex');e.removeAttribute('role');e.removeAttribute('aria-label');}}};let resizeDelay;window.addEventListener('resize',()=>{clearTimeout(resizeDelay);resizeDelay=setTimeout(updateOverflow,250)});document.addEventListener('toggle',()=>{clearTimeout(resizeDelay);resizeDelay=setTimeout(updateOverflow,250)},true);document.addEventListener('articlemathrendered',({detail})=>detail.forEach(root=>updateOverflow(root.closest('.eq,.editorial-table,.reference-table40,.ch11-table')||root)));requestAnimationFrame(()=>updateOverflow());
  // Shared playback already guarantees only one running experiment. Pause it after it leaves the viewport.
  const vis=new IntersectionObserver(entries=>{for(const e of entries){if(!e.isIntersecting&&typeof activePlayer!=='undefined'&&activePlayer&&e.target.contains(activePlayer.button))stopAllPlayback();}},{rootMargin:'120px 0px 120px 0px'});for(const f of document.querySelectorAll('figure'))vis.observe(f);document.addEventListener('visibilitychange',()=>{if(document.hidden&&typeof stopAllPlayback==='function')stopAllPlayback();});
  // Quiet chapter transitions, keeping all original content and anchors.
@@ -63,6 +67,6 @@
  for(const x of document.querySelectorAll('.eq .copy')){x.setAttribute('aria-label','Copy LaTeX for this equation');x.setAttribute('title','Copy LaTeX')}
 
  // Ensure the initial measurement is repeated after the editorial layout is applied.
- requestAnimationFrame(()=>{window.dispatchEvent(new Event('resize'));schedule();});
+ requestAnimationFrame(schedule);
 })();
 

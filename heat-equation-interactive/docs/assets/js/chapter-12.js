@@ -15,6 +15,12 @@ $('ground12low').onclick=()=>{rootChoice='low';ground()};$('ground12high').oncli
 function integral(){const n=read('int12n'),alpha=read('int12a')*(n-2),pwr=read('int12p'),k=read('int12v'),d=n-($('int12domain').value==='boundary'?1:0),a=d-pwr*alpha-k;const f=(x,m)=>Math.abs(m)<1e-12?x*Math.LN10:-Math.expm1(-m*x*Math.LN10)/m,lg=(x,m)=>Math.log10(1+f(x,m));out('int12out',k.toFixed(2));out('int12read',`α=${alpha.toFixed(3)}, p=${pwr}, d=${d} · radial margin d−pα−k=${a.toFixed(5)} · ${Math.abs(a)<1e-12?'logarithmic endpoint on this parameter grid':a>0?`finite normalized near-zero limit ${(1/a).toPrecision(4)}; exterior diverges`:'power divergence near zero; exterior finite'}.`);const p=graph('int12plot',0,6,0,Math.max(1,lg(6,a)*1.06,lg(6,-.5)*1.06),'−log₁₀(cutoff radius)','log₁₀(1 + radial integral)');if(p){p.curve(x=>lg(x,.5),green,[5,4]);p.curve(x=>lg(x,0),gray,[5,4]);p.curve(x=>lg(x,-.5),rust,[5,4]);p.curve(x=>lg(x,a),blue)}}
 const figures=[['dim12',dim,['dim12v']],['holder12',holder,['holder12v','holder12n','holder12ratio']],['order12',order,['order12v']],['time12',time,['time12v','time12peak']],['ground12',ground,['ground12v','ground12n','ground12ratio']],['int12',integral,['int12v','int12n','int12a','int12p','int12domain']]];
 for(const [pre,draw,inputs] of figures){const defaults=inputs.map(id=>$(id).value);for(const id of inputs)$(id).addEventListener('input',draw);$(pre+'reset').onclick=()=>{inputs.forEach((id,i)=>$(id).value=defaults[i]);draw()};registerPlayer(pre+'play',pre+'reset',pre+'v',draw,{inputs,interval:65,name:pre});draw()}
-let timer;addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(()=>figures.forEach(f=>f[1]()),120)});document.querySelectorAll('#ch12 details').forEach(el=>el.addEventListener('toggle',()=>figures.forEach(f=>f[1]())));
+
+watchPlots(dim, 'dim12plot');
+watchPlots(holder, 'holder12plot');
+watchPlots(order, 'order12plot');
+watchPlots(time, 'time12plot');
+watchPlots(ground, 'ground12plot');
+watchPlots(integral, 'int12plot');
 })();
 
