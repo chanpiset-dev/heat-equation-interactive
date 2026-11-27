@@ -1,0 +1,1 @@
+/* Preserve wide mathematics on narrow screens without page overflow. */ @media(max-width:650px){#ch9 mjx-container[display="true"]{display:block;max-width:100%;overflow-x:auto;overflow-y:hidden}#ch9{overflow-x:auto;max-width:100%;min-width:0}#ch9 .controls{min-width:0;max-width:100%;flex-wrap:wrap}}

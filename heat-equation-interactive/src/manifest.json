@@ -1,0 +1,28 @@
+{
+  "content": [
+    "front-matter/hero.html",
+    "chapters/00-introduction.html",
+    "chapters/01-heat-equation.html",
+    "chapters/02-mathematical-formulation.html",
+    "chapters/03-main-theorems.html",
+    "chapters/04-energy-critical-coupling.html",
+    "chapters/05-parabolic-scaling.html",
+    "chapters/06-sharp-kato-inequality.html",
+    "chapters/07-global-existence.html",
+    "chapters/08-supercritical-nonexistence.html",
+    "chapters/09-weighted-solvability.html",
+    "chapters/10-probabilistic-interpretation.html",
+    "chapters/11-numerical-investigations.html",
+    "chapters/12-further-consequences.html",
+    "chapters/13-extended-theory.html",
+    "appendices/a-integration.html",
+    "appendices/b-functional-analysis.html",
+    "appendices/c-fourier-analysis.html",
+    "appendices/d-spectral-theory.html",
+    "appendices/e-probability.html",
+    "appendices/f-numerical-analysis.html",
+    "reference/theorem-catalogue.html",
+    "reference/notation.html",
+    "reference/bibliography.html"
+  ]
+}

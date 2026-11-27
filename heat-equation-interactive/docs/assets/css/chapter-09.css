@@ -1,0 +1,6 @@
+
+#ch9 .legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:#526572;margin:4px 0 12px}
+#ch9 .legend span{display:inline-flex;align-items:center;gap:6px}
+#ch9 .legend i{display:inline-block;width:18px;height:2px;flex:none}
+#fig-roots9 .legend span:nth-child(2) i,#fig-contraction9 .legend span:nth-child(2) i,#fig-upper9 .legend span:nth-child(3) i{height:0;background:none!important;border-top:2px dashed #a7482a}
+#fig-heat9 .legend span:nth-child(3) i,#fig-weight9 .legend span:nth-child(2) i,#fig-upper9 .legend span:nth-child(1) i{height:0;background:none!important;border-top:2px dashed #8799a5}
