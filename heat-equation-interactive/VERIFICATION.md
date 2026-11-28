@@ -1,5 +1,12 @@
 # Verification
 
+## V5.4 mathematical readability
+
+- `python3 build.py --check` verified 1,123 unique IDs, 557 internal links and 52 CSS and JavaScript references. The source audit verified balanced mathematical delimiters, preserved equation numbering, and unchanged scientific figure and control attributes.
+- `python3 -B tools/browser_smoke.py --chromium /usr/bin/chromium` exercised the GitHub Pages prefix over HTTP at 320, 375, 390, 430, 768, 1024 and 1440 CSS pixels. It checked all 4,381 rendered article formulas, zero MathJax errors, all 74 figures, all 54 playback controls, the PDE and Monte Carlo workflows, and absence of raw TeX and duplicate runtime IDs.
+- `python3 -B tools/math_readability_smoke.py --chromium /usr/bin/chromium` reproduced the failing observer geometry and checked the fixed inline and display roots. It exercised keyboard and repeated disclosure, simultaneous proofs, proof search, deep links, copy, progressive rendering in all 20 chapter and appendix sections, and opening and restoration for print.
+- The [readability audit](MATHEMATICAL_READABILITY_AUDIT.md) contains the V5.3 comparison and the mathematical preservation report. The browser engine was desktop Chromium on Linux. The environment blocked WebKit installation, and no physical iOS device was available.
+
 ## V5.3 mathematical exposition
 
 - `python3 build.py --check` passed with 1,117 unique IDs, 550 internal links and 52 local CSS and JavaScript references. The generated site still uses the GitHub Pages directory and repository URL prefix.

@@ -132,7 +132,7 @@ def main():
             counts=page.evaluate('''()=>({math:document.querySelectorAll('article mjx-container').length,errors:document.querySelectorAll('mjx-merror,[data-mml-node="merror"]').length,figures:document.querySelectorAll('figure').length,players:players.size,frames:pd.frames.length,chapters:document.querySelectorAll('section.chapter[id^="ch"]').length})''')
             print('Rendering and worker:', counts, flush=True)
             assert page.evaluate("() => {const ids=[...document.querySelectorAll('[id]')].map(e=>e.id);return new Set(ids).size===ids.length}"), 'Duplicate runtime IDs'
-            assert counts=={'math':4342,'errors':0,'figures':74,'players':54,'frames':61,'chapters':14}, counts
+            assert counts=={'math':4381,'errors':0,'figures':74,'players':54,'frames':61,'chapters':14}, counts
             assert not page.evaluate(r'''() => {
                 const walker = document.createTreeWalker(document.querySelector('article'), NodeFilter.SHOW_TEXT);
                 while (walker.nextNode()) {
