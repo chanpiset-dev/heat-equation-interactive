@@ -1,5 +1,28 @@
 # Verification
 
+## V5.6 mathematical consistency and rigor
+
+| Check | Result |
+| --- | --- |
+| Static build | PASS. 1,147 unique IDs, 598 internal links, and 52 local CSS and JavaScript references. |
+| Chromium HTTP browser smoke | PASS. Repo-prefixed HTTP, 320, 375, 390, 430, 768, 1024 and 1440 CSS pixels. 4,645 rendered expressions, zero MathJax errors, no leftover mathematical TeX, 74 figures and all 54 playback controls. |
+| Mathematical readability suite | PASS. Progressive math in 14 chapters and six appendices, all 14 added proof disclosures, proof-root deep links, unique B.1–B.9 navigation, search, copying, keyboard operation and print restoration. |
+| Scientific regression | PASS. The 61-frame default PDE checksum and seeded Monte Carlo readout matched V5.5. |
+| WebKit install | FAIL. Playwright download HTTP 403. |
+| WebKit execution and physical iOS Safari | NOT RUN. No browser binary or physical device was available. |
+
+Run the checks from the project directory:
+
+```sh
+python3 build.py
+python3 build.py --check
+python3 -B tools/browser_smoke.py --chromium /usr/bin/chromium
+python3 -B tools/math_readability_smoke.py --chromium /usr/bin/chromium
+python3 -B tools/mobile_benchmark.py docs
+```
+
+The [V5.6 audit](MATHEMATICAL_CONSISTENCY_AUDIT_V5_6.md) records the mathematical review, performance comparison and physical acceptance checklist.
+
 ## V5.5 mathematical formalization
 
 | Check | Result |
