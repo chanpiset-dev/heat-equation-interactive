@@ -84,7 +84,7 @@ def main():
             page.evaluate("document.getElementById('phorizon').value='.42';document.getElementById('phorizon').dispatchEvent(new Event('input'))")
             page.wait_for_function('pd?.frames.length === 61 && activeWorker === null')
             print('Progressive load, proof disclosure, playback, simulated backgrounding and deferred PDE passed.', flush=True)
-            # Baseline counts for V5.1. Update intentionally if the monograph grows.
+            # Exercise the existing numerical baseline before the full typesetting audit.
             page.locator('#fig-macro31').evaluate("e=>e.scrollIntoView({behavior:'instant'})")
             page.wait_for_function("document.getElementById('fig-macro31').textContent.includes('Completed estimate')", timeout=30000)
             assert page.evaluate('window.chapter11Data')==read_dataset(), 'Dataset mismatch'
@@ -96,6 +96,9 @@ def main():
             page.set_viewport_size({'width':1440,'height':900})
             search=page.locator('#tocSearch50');search.fill('trajectory stability')
             assert page.locator('#toc a').filter(has_text=re.compile('trajectory stability',re.I)).count()>0
+            search.fill('contraction of the Neumann semigroup')
+            math_result = page.locator('.toc-results50 a[href="#lemma-l2-contraction"] mjx-container')
+            math_result.wait_for(state='visible')
             search.fill('')
             page.evaluate("document.documentElement.style.scrollBehavior='auto';document.getElementById('ch7').scrollIntoView({behavior:'instant',block:'start'})")
             page.wait_for_timeout(500)
@@ -126,18 +129,35 @@ def main():
             page.evaluate("document.querySelector('.pde-view51 button:nth-of-type(1)').click()")
             assert page.locator('.pde-view51 button').nth(0).get_attribute('aria-pressed')=='true'
             page.evaluate("dispatchEvent(new Event('beforeprint'))")
-            counts=page.evaluate('''()=>({math:document.querySelectorAll('mjx-container').length,errors:document.querySelectorAll('mjx-merror,[data-mml-node="merror"]').length,figures:document.querySelectorAll('figure').length,players:players.size,frames:pd.frames.length,chapters:document.querySelectorAll('section.chapter[id^="ch"]').length})''')
+            counts=page.evaluate('''()=>({math:document.querySelectorAll('article mjx-container').length,errors:document.querySelectorAll('mjx-merror,[data-mml-node="merror"]').length,figures:document.querySelectorAll('figure').length,players:players.size,frames:pd.frames.length,chapters:document.querySelectorAll('section.chapter[id^="ch"]').length})''')
             print('Rendering and worker:', counts, flush=True)
             assert page.evaluate("() => {const ids=[...document.querySelectorAll('[id]')].map(e=>e.id);return new Set(ids).size===ids.length}"), 'Duplicate runtime IDs'
-            assert counts=={'math':3357,'errors':0,'figures':74,'players':54,'frames':61,'chapters':14}, counts
+            assert counts=={'math':4342,'errors':0,'figures':74,'players':54,'frames':61,'chapters':14}, counts
+            assert not page.evaluate(r'''() => {
+                const walker = document.createTreeWalker(document.querySelector('article'), NodeFilter.SHOW_TEXT);
+                while (walker.nextNode()) {
+                    const n = walker.currentNode;
+                    if (!n.parentElement.closest('svg,script,pre,code,select,textarea') && /\\[\[(]/.test(n.nodeValue))
+                        return n.nodeValue.trim();
+                }
+                return '';
+            }'''), 'Unrendered TeX after the complete article render'
+            page.set_viewport_size({'width':320,'height':850})
+            assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
+            page.set_viewport_size({'width':1440,'height':900})
             if not args.embedded_assets:
                 equation = page.locator('article .eq[id]').last.get_attribute('id')
-                for target in ['thm-stability13', equation]:
+                for target in ['thm-stability13', equation, 'lemma-trace']:
                     page.goto('about:blank')
                     page.goto(origin + 'heat-equation-interactive/#' + target, wait_until='domcontentloaded')
                     page.wait_for_function('id => !!document.getElementById(id)?.querySelector("mjx-container")',
                                            arg=target, timeout=30000)
                     assert page.evaluate('id => {const r=document.getElementById(id).getBoundingClientRect();return r.top>=0 && r.top<innerHeight}', target)
+                equation_box = page.locator('#lemma-trace .eq')
+                page.evaluate("Object.defineProperty(navigator.clipboard, 'writeText', {configurable:true,value: async text => {window.copiedTex = text;}})")
+                equation_box.locator('button.copy').evaluate("button => button.click()")
+                page.wait_for_function(r"window.copiedTex?.includes('\\tag{B.1}')")
+                print('Cold theorem, equation and appendix fragments and original TeX copy passed.', flush=True)
                 page.evaluate("document.documentElement.style.scrollBehavior='auto'")
                 for chapter in ['ch6', 'ch10', 'ch13', 'ch0'] * 3:
                     page.evaluate("id => document.getElementById(id).scrollIntoView()", chapter)
