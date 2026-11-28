@@ -19,8 +19,6 @@ let nav=$('toc');for(let a of nav.querySelectorAll('a[href^="#"]')){let dest=$(a
 for(let a of document.querySelectorAll('.roadmap a[href^="#"]')){let h=$(a.hash.slice(1))?.querySelector('h2');if(h&&a.querySelector('strong'))a.querySelector('strong').textContent=h.textContent.trim()}
 // Planned parts remain available but do not crowd the current contents.
 let pending=Array.from(nav.children).filter(e=>e.matches('.future,.part')&&e.textContent.includes('Planned')||e.matches('.future'));if(pending.length){let d=makeDetails('Planned chapters','planned-toc');pending[0].before(d);moveInto(d,pending)}
-// Additional appendix subsections, generated from headings rather than duplicated strings.
-let appLink=nav.querySelector('a[href="#app-functional"]'),after=appLink;for(let h of $('app-functional').querySelectorAll('h3[id]')){let a=document.createElement('a');a.className='sub';a.href='#'+h.id;a.textContent=h.textContent;after.after(a);after=a}
 // Move source-only notes into a single accessible group at the end of each chapter.
 for(let sec of document.querySelectorAll('section.chapter')){let notes=[...sec.querySelectorAll(':scope > .source')];if(notes.length){let d=makeDetails('Source notes','source-notes');notes[0].before(d);moveInto(d,notes)}}
 let pde=$('fig-pde'),plots=pde.querySelector('.pdeplots');$('fixed').parentElement.querySelector('.paneltitle').textContent='Stationary center';plots.id='pdeplots';let diff=$('diffplot').parentElement,lab=pde.querySelector('.lab-controls'),time=lab.querySelector('.lab-time');
@@ -53,8 +51,20 @@ let pot=$('fig-pot-settings'); // epsilon must be adjustable even in remove-regu
 // Hide explanatory source asides that duplicate the surrounding prose, without deleting any statements.
 for(let rem of document.querySelectorAll('.remark')){let p=document.createElement('p');while(rem.firstChild)p.append(rem.firstChild);rem.replaceWith(p)}
 // All page-local links to collapsed sections reveal their containing details.
-function revealTarget(){let id=decodeURIComponent(location.hash.slice(1)),el=$(id);if(el){for(let p=el.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS')p.open=true;}}
-addEventListener('hashchange',revealTarget);document.addEventListener('click',e=>{let a=e.target.closest('a[href^="#"]');if(a){let el=$(a.hash.slice(1));if(el)for(let p=el.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS')p.open=true}});revealTarget();
+function revealDisclosures(target) {
+    for (let element=target; element; element=element.parentElement) {
+        if (element.tagName==='DETAILS') element.open=true;
+    }
+}
+function revealTarget() {
+    revealDisclosures($(decodeURIComponent(location.hash.slice(1))));
+}
+addEventListener('hashchange',revealTarget);
+document.addEventListener('click',e=>{
+    const link=e.target.closest('a[href^="#"]');
+    if(link)revealDisclosures($(link.hash.slice(1)));
+});
+revealTarget();
 
 for(const el of document.querySelectorAll('.eq')){const s=el.textContent.trim(),b=document.createElement('button');b.className='copy';b.textContent='TeX';b.title='Copy LaTeX';b.onclick=async()=>{try{await navigator.clipboard.writeText(s);b.textContent='Copied'}catch{let ta=document.createElement('textarea');ta.value=s;document.body.append(ta);ta.select();let ok=document.execCommand('copy');ta.remove();b.textContent=ok?'Copied':'Copy failed'}setTimeout(()=>b.textContent='TeX',1100)};el.append(b)}
 function setup(id){let c=$(id);if(!visiblePlots.has(c)||document.hidden)return null;let r=c.getBoundingClientRect(),w=r.width,h=r.height,d=plotDpr();if(w<1||h<1)return null;if(c.width!==Math.round(w*d)||c.height!==Math.round(h*d)){c.width=Math.round(w*d);c.height=Math.round(h*d)}allocatedPlots.add(c);let g=c.getContext('2d');g.setTransform(d,0,0,d,0,0);g.clearRect(0,0,w,h);return {g,w,h}}

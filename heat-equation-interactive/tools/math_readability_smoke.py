@@ -112,6 +112,46 @@ def main():
                 assert variation.locator('mjx-container').count() == 1
                 print('Quadratic variation proof deferred, deep-linked, copied, and reopened.', flush=True)
 
+                appendix_b = page.locator('#toc .toc-chapter50').filter(
+                    has=page.locator('a.toc-start50[href="#app-functional"]'))
+                hashes = appendix_b.locator('.toc-chapter-links50 a').evaluate_all(
+                    'links => links.map(link => link.hash)')
+                assert len(hashes) == len(set(hashes)) == 9, hashes
+
+                new_proof_ids = (
+                    'proof-ito-simple', 'proof-ito-extension', 'proof-ito-localization',
+                    'proof-mixed-variation', 'proof-reflected-ito', 'proof-reflection-crossing',
+                    'proof-regulator-law', 'proof-gaussian-moments', 'proof-bridge-inverse',
+                    'proof-stieltjes-quadrature', 'proof-sampling-variance', 'proof-contraction-b9',
+                    'proof-affine-b9', 'proof-parameter-b9',
+                )
+                for proof_id in new_proof_ids:
+                    disclosure = page.locator('#' + proof_id)
+                    math = disclosure.locator('mjx-container')
+                    summary = disclosure.locator('summary')
+                    summary.evaluate("e => e.scrollIntoView({behavior:'instant',block:'center'})")
+                    assert disclosure.get_attribute('open') is None, proof_id
+                    assert math.count() == 0, proof_id
+                    summary.click()
+                    math.first.wait_for()
+                    page.wait_for_function(
+                        "id => !document.getElementById(id).textContent.includes('\\\\(')"
+                        " && !document.getElementById(id).textContent.includes('\\\\[')", arg=proof_id)
+                    count = math.count()
+                    summary.click()
+                    summary.click()
+                    assert math.count() == count, proof_id
+                    summary.click()
+                print('All new Appendix B and E proofs opened independently without duplicate math.', flush=True)
+
+                page.locator('#menu').click()
+                page.locator('#tocSearch50').fill('parameter integrals')
+                page.locator('.toc-results50 a[href="#app-parameter-measurability"]').click()
+                assert page.url.endswith('#app-parameter-measurability')
+                page.goto(origin + '#proof-reflected-ito')
+                assert page.locator('#proof-reflected-ito').get_attribute('open') is not None
+                print('Appendix B navigation, parameter search, and proof-root deep link passed.', flush=True)
+
                 for id in ('result-11-2', 'result-11-first', 'result-11-3', 'result-11-4'):
                     assert page.locator('#' + id).evaluate("e => !e.closest('details')")
                 proof.locator('summary').evaluate('e => {e.parentElement.open = false}')
