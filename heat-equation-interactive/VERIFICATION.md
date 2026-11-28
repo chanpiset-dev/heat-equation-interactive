@@ -1,5 +1,27 @@
 # Verification
 
+## V5.5 mathematical formalization
+
+| Check | Result |
+| --- | --- |
+| Static build and source comparison | PASS. 1,125 IDs, 575 internal links and 52 local CSS and JavaScript references. Original IDs, equation tags, links and scientific control attributes were preserved. |
+| Chromium HTTP regression | PASS. Ran at the repository URL prefix at 320, 375, 390, 430, 768, 1024 and 1440 CSS pixels. The full render contained 4,497 formulas with no raw TeX or MathJax errors. |
+| Progressive math and proofs | PASS. Visited all 14 chapters and six appendices, including the new quadratic variation proof. Tested closed-proof deferral, direct links, TeX copying, keyboard reopen, simultaneous disclosures, search, and print restoration. |
+| Scientific behavior | PASS. All 74 figures remain, and all 54 playback controls were exercised. The default PDE snapshots and Monte Carlo readout matched V5.4. |
+| Playwright WebKit installation | FAIL. The browser download returned HTTP 403. |
+| WebKit and physical iOS Safari | NOT RUN. The browser binary and a physical device were unavailable. |
+
+Commands used from the project directory:
+
+```sh
+python3 build.py --check
+python3 -B tools/browser_smoke.py --chromium /usr/bin/chromium
+python3 -B tools/math_readability_smoke.py --chromium /usr/bin/chromium
+python3 -B tools/mobile_benchmark.py docs
+```
+
+The [formalization audit](MATHEMATICAL_FORMALIZATION_AUDIT.md) records the mathematical review and baseline comparison.
+
 ## V5.4 mathematical readability
 
 - `python3 build.py --check` verified 1,123 unique IDs, 557 internal links and 52 CSS and JavaScript references. The source audit verified balanced mathematical delimiters, preserved equation numbering, and unchanged scientific figure and control attributes.
