@@ -1,6 +1,6 @@
 # Heat Equation with a Dynamical Singular Potential on the Boundary
 
-Interactive mathematical exposition — V5.4 mathematical readability and rendering update. The site retains the accepted editorial design, fourteen chapters, six appendices, theorem catalogue, bibliography, and scientific experiments.
+Interactive mathematical exposition — V5.5 Mathematical Formalization Edition. The site retains the accepted editorial design, fourteen chapters, six appendices, theorem catalogue, bibliography, and scientific experiments.
 
 ## Preview locally
 
@@ -50,6 +50,8 @@ The `src/content/` files are **HTML fragments**, not independent browser pages. 
 The six appendices distinguish hypotheses, conclusions and derivations. Mathematical prose, captions and reference labels use the site’s MathJax conventions. See the [mathematical exposition audit](MATHEMATICAL_EXPOSITION_AUDIT.md) for examples, chapter-by-chapter changes and verification.
 
 The [V5.4 readability audit](MATHEMATICAL_READABILITY_AUDIT.md) documents the Grönwall rendering fix, the proof disclosures, and the chapter-by-chapter review.
+
+The [V5.5 formalization audit](MATHEMATICAL_FORMALIZATION_AUDIT.md) covers the revised probability reference, chapter-by-chapter changes, and regression evidence.
 
 ## Mobile rendering
 

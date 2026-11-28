@@ -9,7 +9,8 @@
 \qquad \omega_0=\tfrac12,\quad\omega_k=1\ (k&gt;0).
 \end{aligned}\]</div>
 <details class="proof"><summary>Derivation of the edge identity</summary>
-<p>Count each edge once, including those meeting a Dirichlet face. The contributions from its endpoints combine into the negative product of differences. In the vertical term at the lower face, the half-weight cancels the doubled normal stencil coefficient, giving the same edge weight as in the interior. In the Robin term, the bottom-node factor \(\ell^3/2\) multiplies the ghost-point contribution \(2V^n_{ij}u_{ij0}/\ell\), giving \(\ell^2 V^n_{ij}u_{ij0}\) in the pairing.</p>
+<p>Count each edge once, including those meeting a Dirichlet face. The contributions from its endpoints combine into the negative product of differences. In the vertical term at the lower face, the half-weight cancels the doubled normal stencil coefficient, giving the same edge weight as in the interior. At a bottom node the corresponding Robin contribution to the pairing is
+\((\ell^3/2)(2V^n_{ij}u_{ij0}/\ell)v_{ij0}=\ell^2 V^n_{ij}u_{ij0}v_{ij0}\).</p>
 </details>
 <p>Taking \(v=u\) gives the energy pairing; taking \(v=1\) on active nodes and zero on Dirichlet nodes gives the mass balance and outer-face loss.</p>
 

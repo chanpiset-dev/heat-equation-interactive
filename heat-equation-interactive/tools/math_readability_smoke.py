@@ -95,6 +95,23 @@ def main():
                     assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'), id
                     print(f'Progressively rendered {id}', flush=True)
 
+                variation = page.locator('#eq-brownian-variation-error')
+                variation_proof = variation.locator('xpath=ancestor::details[1]')
+                assert variation_proof.get_attribute('open') is None
+                assert variation.locator('mjx-container').count() == 0
+                page.goto(origin + '#eq-brownian-variation-error')
+                variation.locator('mjx-container').wait_for()
+                assert variation_proof.get_attribute('open') is not None
+                variation.locator('.copy').evaluate('button => button.click()')
+                page.wait_for_function(r"window.copiedTex?.includes('\\sum_{k=0}^{m-1}')")
+                variation_proof.locator('summary').focus()
+                page.keyboard.press('Enter')
+                assert variation_proof.get_attribute('open') is None
+                page.keyboard.press('Enter')
+                assert variation_proof.get_attribute('open') is not None
+                assert variation.locator('mjx-container').count() == 1
+                print('Quadratic variation proof deferred, deep-linked, copied, and reopened.', flush=True)
+
                 for id in ('result-11-2', 'result-11-first', 'result-11-3', 'result-11-4'):
                     assert page.locator('#' + id).evaluate("e => !e.closest('details')")
                 proof.locator('summary').evaluate('e => {e.parentElement.open = false}')
@@ -113,7 +130,7 @@ def main():
                         ('holder', '#app-holder'),
                         ('gronwall', '#app-gronwall'),
                         ('theorem', '#thm31'),
-                        ('technical-proof', '#app-monotone + dd details'),
+                        ('technical-proof', '#eq-brownian-variation-error'),
                         ('figure', '#fig-gauss'),
                     ):
                         page.locator(selector).evaluate("e=>e.scrollIntoView({behavior:'instant',block:'start'})")

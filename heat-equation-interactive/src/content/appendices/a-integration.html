@@ -62,7 +62,11 @@ A uniform \(L^p\) bound with \(p&gt;1\) suffices, since</p>
 <p>Let \(g_h(x)=(4\pi h)^{-N/2}e^{-|x|^2/(4h)}\) on \(\mathbb R^N\) for \(h&gt;0\). Completing the square gives \(g_s*g_t=g_{s+t}\). The substitution \(x=\sqrt h\,y\) gives</p>
 <div class="eq">\[g_h(x)=h^{-N/2}g_1(x/\sqrt h),\qquad
 \int_{|x|&gt;d}g_h(x)\,dx=\int_{|y|&gt;d/\sqrt h}g_1(y)\,dy\longrightarrow0\quad(d&gt;0).\]</div>
-<p>For bounded \(f\), split \(g_h*f(x)-f(x)\) at radius \(d\). The inner contribution is bounded by \(\sup_{|y|\le d}|f(x-y)-f(x)|\); the outer contribution is bounded by \(2\|f\|_\infty\int_{|y|&gt;d}g_h(y)\,dy\). This proves convergence at continuity points and locally uniform convergence for continuous data by uniform continuity on enlarged compact sets.</p>
+<p>For bounded \(f\), subtract \(f(x)\int g_h=f(x)\) and split the integral at radius \(d&gt;0\):</p>
+<div class="eq">\[|(g_h*f)(x)-f(x)|
+\le \sup_{|y|\le d}|f(x-y)-f(x)|+
+(\|f\|_\infty+|f(x)|)\int_{|y|&gt;d}g_h(y)\,dy.\]</div>
+<p>At a continuity point, take \(h\downarrow0\) followed by \(d\downarrow0\). For continuous data and \(x\) in a compact set, uniform continuity on an enlarged compact set gives the same limit uniformly in \(x\).</p>
 <p>For \(f\in L^2(\mathbb R^N)\), Jensen's inequality for the probability density \(g_h\) gives</p>
 <div class="eq">\[\begin{aligned}
 \|g_h*f\|_2^2 &\le \int_{\mathbb R^N} g_h(y)\|f(\cdot-y)\|_2^2\,dy=\|f\|_2^2,\\

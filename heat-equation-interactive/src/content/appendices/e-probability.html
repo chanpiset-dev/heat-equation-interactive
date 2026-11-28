@@ -1,9 +1,40 @@
 <section class="chapter" id="app-probability"><div class="eyebrow">Appendix E</div><h2>Appendix E · Probability and stochastic calculus</h2><p class="why"><strong>When to use this appendix.</strong> Read E.1–E.3 for stochastic derivations and E.4 for the numerical sampling algorithm. The foundational probability results are identified separately from their application.</p>
 <p>Probability prerequisites for <a href="#ch10">Chapter 10</a>. Construction of Wiener measure, the Brownian strong Markov property, the reflection principle, Doob's maximal inequality and the general Itô formula are standard stochastic-calculus inputs (see [8]); they are not consequences of the heat estimates. The derivations below explain the particular normalization and formulas used in this exposition.</p>
 <h3 id="app-prob-foundations">E.1 Probability spaces, conditioning and martingales</h3>
-<p><strong>Probability space and filtration.</strong> On \((\Omega_{\rm prob},\mathcal F,\mathbb P)\), a random variable is a measurable map and its law is its pushforward of \(\mathbb P\). A filtration \((\mathcal F_s)_{s\ge0}\) is an increasing family of sub-\(\sigma\)-algebras. We use the completed right-continuous Brownian filtration. A process \(Y\) is adapted if \(Y_s\) is \(\mathcal F_s\)-measurable for each \(s\); \(\tau\) is a stopping time if \(\{\tau\le s\}\in\mathcal F_s\) for every \(s\ge0\).</p>
-<p><strong>Conditional expectation.</strong> For \(Y\in L^1(\mathbb P)\) and \(\mathcal G\subset\mathcal F\), \(\mathbb E[Y\mid\mathcal G]\) is the \(\mathcal G\)-measurable integrable variable whose integral agrees with that of \(Y\) on each event in \(\mathcal G\). It is unique almost surely, preserves positivity, and satisfies the tower rule for nested sub-\(\sigma\)-algebras.</p>
-<p>A martingale is an adapted integrable process \(M\) such that \(\mathbb E[M_t\mid\mathcal F_s]=M_s\) for \(0\le s\le t\). A local martingale has a sequence of stopping times increasing to infinity for which the stopped processes are martingales. To remove localization on a bounded horizon it is sufficient that the stopped values converge and are dominated by a common integrable random variable; dominated convergence in the martingale expectation identity then gives equality of endpoint expectations. The strong Markov property of Brownian motion states that after an almost surely finite stopping time the future increments are Brownian and independent of the stopped past. The same assertion on the event \(\tau&lt;t\) follows by stopping at \(\tau\wedge t\). Restarting the deterministic reflection map transfers this property to \(X\) and the future increments of \(L\).</p>
+<p>On a probability space \((\Omega_{\rm prob},\mathcal F,\mathbb P)\), a random variable is a measurable map. For a real-valued \(Y\), its law is \(Y_\#\mathbb P\), given by \((Y_\#\mathbb P)(B)=\mathbb P(Y\in B)\) for Borel sets \(B\).</p>
+
+<h4>Filtration, adaptedness and stopping times</h4>
+<p>A <strong>filtration</strong> \((\mathcal F_t)_{t\ge0}\) is a family of sub-\(\sigma\)-algebras satisfying</p>
+<div class="eq">\[\mathcal F_s\subseteq\mathcal F_t\subseteq\mathcal F\qquad(0\le s\le t).\]</div>
+<p>We use the completed, right-continuous Brownian filtration. A process \(Y=(Y_t)_{t\ge0}\) is <strong>adapted</strong> if \(Y_t\) is \(\mathcal F_t\)-measurable for every \(t\ge0\). A random variable \(\tau:\Omega_{\rm prob}\to[0,\infty]\) is a <strong>stopping time</strong> if</p>
+<div class="eq">\[\{\tau\le t\}\in\mathcal F_t\qquad(t\ge0).\]</div>
+
+<h4>Conditional expectation</h4>
+<p>For \(Y\in L^1(\mathbb P)\) and a sub-\(\sigma\)-algebra \(\mathcal G\subseteq\mathcal F\), the conditional expectation \(Z=\mathbb E[Y\mid\mathcal G]\) is the almost surely unique integrable, \(\mathcal G\)-measurable variable satisfying</p>
+<div class="eq">\[\int_A Z\,d\mathbb P=\int_A Y\,d\mathbb P\qquad(A\in\mathcal G).\]</div>
+<p>Positivity and the tower property give, almost surely,</p>
+<div class="eq">\[\begin{aligned}
+Y\ge0&\ \Longrightarrow\ \mathbb E[Y\mid\mathcal G]\ge0,\\
+\mathbb E[\mathbb E[Y\mid\mathcal G]\mid\mathcal G_0]
+&=\mathbb E[Y\mid\mathcal G_0]\qquad(\mathcal G_0\subseteq\mathcal G).
+\end{aligned}\]</div>
+<p>The first assertion follows by testing on \(\{Z&lt;0\}\). For the second, the two sides have the same integrals over all events of \(\mathcal G_0\). </p>
+
+<h4>Martingales and localization</h4>
+<p>An adapted process \(M=(M_t)_{t\ge0}\) is a <strong>martingale</strong> if \(M_t\in L^1(\mathbb P)\) for all \(t\ge0\) and</p>
+<div class="eq">\[\mathbb E[M_t\mid\mathcal F_s]=M_s\quad\text{a.s.}\qquad(0\le s\le t).\]</div>
+<p>It is a <strong>local martingale</strong> if there are stopping times \(\tau_n\uparrow\infty\) almost surely such that each stopped process \(M_t^{\tau_n}=M_{t\wedge\tau_n}\) is a martingale.</p>
+<p>To pass to the limit at fixed endpoints \(s\le t\), suppose the stopped values at both endpoints are bounded in absolute value by a common integrable random variable. Since they converge almost surely, dominated convergence gives</p>
+<div class="eq">\[\mathbb E[\mathbf1_A M_t]
+=\lim_n\mathbb E[\mathbf1_A M_{t\wedge\tau_n}]
+=\lim_n\mathbb E[\mathbf1_A M_{s\wedge\tau_n}]
+=\mathbb E[\mathbf1_A M_s]\qquad(A\in\mathcal F_s).\]</div>
+<p>Taking \(A=\Omega_{\rm prob}\) recovers equality of endpoint expectations.</p>
+
+<h4>Brownian strong Markov property</h4>
+<p>If \(W\) is standard Brownian motion and \(\tau\) is an almost surely finite stopping time for its usual filtration, then \((W_{\tau+r}-W_\tau)_{r\ge0}\) is standard Brownian motion started at zero and is independent of the stopped past \(\mathcal F_\tau\). For a possibly infinite \(\tau\), apply the result to \(\tau\wedge t\) on the event \(\{\tau&lt;t\}\).</p>
+<p>For the <a href="#ch10-reflect">reflected process</a>, restart the deterministic reflection map at \(X_\tau\) using the new increments. This yields \(X_{\tau+r}\) and the regulator increments \(L_{\tau+r}-L_\tau\) without using the pre-\(\tau\) path beyond its endpoint.</p>
+
 <h3 id="app-prob-ito">E.2 Stochastic integrals and the Itô correction</h3>
 <p>Let \(W\) be standard \(N\)-dimensional Brownian motion with respect to the filtration. For \(J_r=\sum_jJ_j\mathbf1_{(s_j,s_{j+1}]}(r)\) with deterministic grid points and square-integrable, \(\mathcal F_{s_j}\)-measurable \(J_j\), set</p>
 <div class="eq">\[\int_0^t J_r\cdot dW_r=\sum_j J_j\cdot(W_{s_{j+1}\wedge t}-W_{s_j\wedge t}).\]</div>
@@ -12,8 +43,47 @@
 <details class="proof"><summary>Proof of the isometry for simple integrands</summary>
 <p>Condition on the later left endpoint in each cross term. The earlier increment and both coefficients are measurable there, and the later increment has conditional mean zero. The conditional covariance of each increment is its elapsed time times the identity, so its diagonal contribution is that elapsed time times \(\mathbb E|J_j|^2\). Summing gives the integral on the right. The same conditioning proves that the mean vanishes. <span class="qed">∎</span></p>
 </details>
-<p>Completion extends the integral by this isometry to square-integrable predictable integrands, using density of simple predictable processes (predictability is measurability for the sigma-algebra generated by adapted left-continuous processes). The conditional expectation property of simple sums passes to the \(L^2\) limit. Locally square-integrable integrands are defined by stopping. We use Doob's \(L^2\) inequality \(\mathbb E\sup_{s\le t}|M_s|^2\le4\mathbb E|M_t|^2\) for continuous square-integrable martingales.</p>
-<p>Along deterministic partitions with mesh tending to zero the sums \(\sum\Delta W_i\Delta W_j\) converge in \(L^2\) to \(t\delta_{ij}\), since independence makes their variance bounded by a constant times the mesh size on a fixed time interval. A continuous finite-variation path has sums of squared increments tending to zero, bounded by its total variation times its largest increment. Mixed sums tend to zero in probability by Cauchy–Schwarz. The second-order Taylor expansion for a smooth \(f\) of \(X=x+\sqrt2W+e_NL\) therefore retains the second-order Brownian contribution \(\Delta f\,ds\) while the regulator contributes its first-order Stieltjes term. More precisely, the standard Itô formula for continuous semimartingales (with localization to compact sets and the time-dependent first derivative for a \(C^{1,2}\) function) gives (10.4). The Taylor argument explains the coefficient; it is not intended as a proof of the general stochastic calculus theorem.</p>
+<h4>Square-integrable predictable integrands</h4>
+<p>For \(T&gt;0\), let \(\mathcal P_T^2\) consist of \(\mathbb R^N\)-valued predictable processes on \([0,T]\) with</p>
+<div class="eq">\[\|J\|_{\mathcal P_T^2}^2=\mathbb E\int_0^T |J_r|^2\,dr&lt;\infty.\]</div>
+<p>Identify processes equal \(dr\otimes d\mathbb P\)-almost everywhere. Predictability means measurability for the \(\sigma\)-algebra generated by left-continuous adapted processes. We use the standard density of simple predictable processes in \(\mathcal P_T^2\) (see <a href="#bib-8">[8]</a>).</p>
+<p><strong>Extension by isometry.</strong> For \(J^{(n)}\) simple with \(\|J^{(n)}-J\|_{\mathcal P_T^2}\to0\), the simple-integrand isometry gives</p>
+<div class="eq">\[\mathbb E\left|\int_0^T(J_r^{(n)}-J_r^{(m)})\cdot dW_r\right|^2
+=\|J^{(n)}-J^{(m)}\|_{\mathcal P_T^2}^2\longrightarrow0.\]</div>
+<p>Define \(\int_0^T J_r\cdot dW_r\) as the \(L^2(\mathbb P)\) limit. The same estimate for two approximating sequences gives independence of the approximation. Passing to the limit in the isometry yields</p>
+<div class="eq">\[\mathbb E\left|\int_0^T J_r\cdot dW_r\right|^2=\mathbb E\int_0^T|J_r|^2\,dr.\]</div>
+<p>Truncating the integrand in time defines the integrals through \(t\le T\). The martingale identity passes to the limit because conditional expectation contracts \(L^2\). For a predictable \(J\) with \(\int_0^t |J_r|^2\,dr&lt;\infty\) almost surely on each finite interval, stop when this integral reaches \(n\). Each stopped integrand has square-integral at most \(n\), and the stopped definitions agree up to the earlier stopping time.</p>
+
+<h4>Doob's inequality</h4>
+<p>For any continuous square-integrable martingale \(M\) on \([0,t]\), Doob's \(L^2\) inequality gives</p>
+<div class="eq">\[\mathbb E\sup_{0\le s\le t}|M_s|^2\le4\,\mathbb E|M_t|^2.\]</div>
+<p>In the <a href="#ch10-local">occupation-limit proof</a>, this turns the terminal isometry bound for the stochastic error into a bound uniform over the whole time interval.</p>
+
+<h4 id="app-prob-quadratic">Quadratic variation of Brownian motion</h4>
+<p>Let \(W\) be standard \(N\)-dimensional Brownian motion, and fix \(t&gt;0\). For a deterministic partition \(\pi=\{0=t_0&lt;\cdots&lt;t_m=t\}\), put \(\Delta t_k=t_{k+1}-t_k\), \(|\pi|=\max_k\Delta t_k\) and \(\Delta W_k^i=W^i_{t_{k+1}}-W^i_{t_k}\). For \(1\le i,j\le N\),</p>
+<div class="eq">\[S_\pi^{ij}:=\sum_{k=0}^{m-1}\Delta W_k^i\Delta W_k^j
+\xrightarrow[|\pi|\to0]{L^2(\mathbb P)} t\delta_{ij}.\]</div>
+<details class="proof"><summary>Proof of the quadratic variation estimate</summary>
+<p>The summands on distinct intervals are independent. On one interval the product has mean \(\delta_{ij}\Delta t_k\). Its variance is \((\Delta t_k)^2\) when \(i\ne j\), using independence of the coordinates, and \(2(\Delta t_k)^2\) when \(i=j\), using the centered Gaussian fourth moment. Thus \(\mathbb E S_\pi^{ij}=t\delta_{ij}\) and</p>
+<div class="eq" id="eq-brownian-variation-error">\[\begin{aligned}
+\mathbb E|S_\pi^{ij}-t\delta_{ij}|^2
+&=(1+\delta_{ij})\sum_{k=0}^{m-1}(\Delta t_k)^2\\
+&\le 2t|\pi|\longrightarrow0.
+\end{aligned}\]</div>
+</details>
+
+<h4>Finite variation and the reflected process</h4>
+<p>For a continuous real path \(A\) of finite variation on \([0,t]\), uniform continuity gives</p>
+<div class="eq">\[\sum_k|\Delta A_k|^2
+\le \max_k|\Delta A_k|\,\operatorname{Var}_{[0,t]}(A)\longrightarrow0.\]</div>
+<p>This holds pathwise for a continuous random process of finite variation. Moreover,</p>
+<div class="eq">\[\left|\sum_k\Delta W_k^i\Delta A_k\right|
+\le\left(\sum_k|\Delta W_k^i|^2\right)^{1/2}
+    \left(\sum_k|\Delta A_k|^2\right)^{1/2}
+\xrightarrow{\mathbb P}0.\]</div>
+<p>The first factor is bounded in probability by the quadratic variation estimate, while the second converges almost surely to zero. For \(X_t=x+\sqrt2 W_t+e_N L_t\), the continuous regulator \(L\) has finite variation, so</p>
+<div class="eq">\[[L,L]_t=0,\qquad[W^i,L]_t=0,\qquad[X^i,X^j]_t=2t\delta_{ij}.\]</div>
+<p>In the Itô formula for \(f\in C^{1,2}\), the second-order term is therefore \(\tfrac12\sum_{i,j}\partial_{ij}f\,d[X^i,X^j]=\Delta f\,dt\); the regulator enters through \(\partial_N f\,dL\). Localization to compact sets justifies the use of the general continuous-semimartingale formula in <a href="#eq-ito10">(10.4)</a>. The increment computation identifies the coefficients in that formula.</p>
 <h3 id="app-prob-reflection">E.3 Reflection principle and exponential moments</h3>
 <p>For a Brownian motion starting at \(a\), reflect the portion of a path after its first hit of level \(m\le a\). By strong Markov and symmetry the reflected future has the same law. Thus the paths crossing \(m\) and ending at \(b\ge m\) correspond in law to paths ending at \(2m-b\le m\). For the variance-2 driver the density of the latter endpoint is \(g_t^{(1)}(a+b-2m)\). This establishes the crossing formula of §10.2. Integrating it, or applying symmetry at zero start, gives the maximum of \(-\sqrt2 W_s\) up to time \(t\) the law \(\sqrt{2t}|Z_0|\), where \(Z_0\) is standard normal. The regulator is its excess above the initial height. The union bound and the reflection principle also give \(\mathbb P(\sup_{s\le t}|W_s|&gt;r)\le4\mathbb P(W_t&gt;r)\) for one coordinate and \(r&gt;0\). For each finite \(b\) and \(T\), Gaussian tails imply \(\mathbb E e^{b\sqrt2\sup_{s\le T}|W_s|}&lt;\infty\) for \(b\ge0\), by integrating the tail. This bound is independent of the nonnegative starting height.</p>
 <h3 id="app-prob-simulation">E.4 Sampling a Brownian-bridge minimum</h3>
@@ -22,5 +92,5 @@
 <div class="eq">\[\mathbb P(m_{\rm step}\le m\mid a,b)=\exp\!\left(-\frac{(a-m)(b-m)}{\Delta s}\right).\]</div>
 <p>Invert this distribution using an independent uniform random variable \(U\) in \((0,1)\). The smaller root of the quadratic equation is</p><div class="eq">\[m_{\rm step}=\frac{a+b-\sqrt{(a-b)^2-4\Delta s\log U}}2.\]</div>
 <p>Conditional on the grid endpoints the bridge segments are independent by the Gaussian increment law, so independent uniforms give the correct conditional minima. Updating the running minimum and applying (10.2) gives the exact joint grid-time law of the normal endpoint and regulator. Tangential increments are independent Gaussians of variance \(2\Delta s\). This samples minima, not their exact occurrence times or locations along the tangential Brownian path; for variable \(V\) the right-endpoint Stieltjes sum still has discretization error. On any common continuous path its error is bounded by the modulus of continuity of \(s\mapsto V((X_s',0),t-s)\) at the mesh size, multiplied by \(L_t\). This tends to zero pathwise. For bounded continuous \(V\) along the reflected path and bounded measurable terminal datum \(f\), the exponential-tail bound in E.3 supplies an integrable dominator, giving convergence of expectations as the mesh decreases. The Monte Carlo estimator at a fixed mesh is an ordinary sample mean of independent path functionals. Its variance is the single-path variance divided by the sample count, finite by the same bound with twice the coefficient. The usual sample variance estimates sampling uncertainty, not bias of the Stieltjes approximation. The browser uses seeded pseudorandom uniform draws and Box–Muller normals, approximating ideal independent draws.</p>
-<details open><summary>E.4 supplement · Joint laws and paired estimators</summary><p>Continuous process laws on path space are determined by finite-dimensional distributions at rational times: rational evaluations determine continuous functions and generate the Borel sigma-algebra of the uniform topology on compact time intervals. One-time laws alone do not determine joint laws. Gaussian increment grids reproduce the Brownian finite-dimensional distributions; bridge minima give additional exact regulator grid laws, not full within-step paths.</p><p>To couple meshes, use fine driver endpoints and conditional minima, then running minima. A minimum over a coarse interval is the smallest of its constituent minima. Restricting endpoints and regulators to the coarse grid therefore gives their correct joint coarse law. For paired differences \(D_i\), the standard error of their average is the sample standard deviation of \(D_i\) divided by \(\sqrt n\), not the difference of the two independent standard errors. Equation (10.11) and dominated convergence establish mesh convergence for bounded data and fixed bounded regularization. The numerical experiment assesses finite-resolution sensitivity, not the unknown remaining bias.</p><p>For independent identically distributed \(Y_i\) with finite variance, expansion of the square of \(\bar Y-\mathbb EY\) gives variance \(\operatorname{Var}(Y)/n\). Expanding \(\sum_i(Y_i-\bar Y)^2\) about the true mean gives expectation \((n-1)\operatorname{Var}(Y)\), proving unbiasedness of the usual sample variance. The law of large numbers and central limit theorem concern increasing sample counts, not guaranteed small error in a given sample. Strong exponential weights may be poorly sampled.</p></details></section>
+<details open><summary>E.4 supplement · Joint laws and paired estimators</summary><p>Continuous process laws on path space are determined by finite-dimensional distributions at rational times: rational evaluations determine continuous functions and generate the Borel sigma-algebra of the uniform topology on compact time intervals. One-time laws alone do not determine joint laws. Gaussian increment grids reproduce the Brownian finite-dimensional distributions; bridge minima give additional exact regulator grid laws, not full within-step paths.</p><p>To couple meshes, use fine driver endpoints and conditional minima, then running minima. A minimum over a coarse interval is the smallest of its constituent minima. Restricting endpoints and regulators to the coarse grid therefore gives their correct joint coarse law. For \(n\ge2\) independent paired differences \(D_i\) with a common law and finite variance, \(\operatorname{Var}(\bar D)=\operatorname{Var}(D_1)/n\). The estimated standard error is \(s_D/\sqrt n\), where \(s_D^2=(n-1)^{-1}\sum_i(D_i-\bar D)^2\). Pairing retains the covariance between fine and coarse estimates within each draw. Equation (10.11) and dominated convergence establish mesh convergence for bounded data and fixed bounded regularization. The numerical experiment assesses finite-resolution sensitivity, not the unknown remaining bias.</p><p>For independent identically distributed \(Y_i\) with finite variance, expansion of the square of \(\bar Y-\mathbb EY\) gives variance \(\operatorname{Var}(Y)/n\). Expanding \(\sum_i(Y_i-\bar Y)^2\) about the true mean gives expectation \((n-1)\operatorname{Var}(Y)\), proving unbiasedness of the usual sample variance. The law of large numbers and central limit theorem concern increasing sample counts, not guaranteed small error in a given sample. Strong exponential weights may be poorly sampled.</p></details></section>
 
