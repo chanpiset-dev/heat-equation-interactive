@@ -1,5 +1,15 @@
 # Verification
 
+## V5.3 mathematical exposition
+
+- `python3 build.py --check` passed with 1,117 unique IDs, 550 internal links and 52 local CSS and JavaScript references. The generated site still uses the GitHub Pages directory and repository URL prefix.
+- Baseline comparison preserved original IDs, equation tags, links, control attributes and all original chapter TeX expressions. The six rewritten appendices were rendered independently in Chromium; each passed with zero MathJax errors.
+- The Chromium HTTP suite checked progressive rendering, complete rendering, original TeX copying, a mathematical contents result, late theorem, equation and appendix fragments, expandable proofs, the drawer, search, chapter navigation and viewport widths from 320 through 1440 CSS pixels. The complete article rendered 4,342 expressions. The test found no malformed or leftover TeX, duplicate runtime IDs, missing asset requests or uncaught JavaScript errors.
+- All 74 figures, 54 playback controls and 14 chapters remain. The browser dataset matches the exported dataset, and both versions agree on the default 61-frame PDE checksum and the seeded Monte Carlo readout.
+- This was Linux desktop Chromium with mobile viewport emulation. The environment blocked the desktop WebKit download. Physical iOS Safari behavior was unavailable.
+
+See the [mathematical exposition audit](MATHEMATICAL_EXPOSITION_AUDIT.md) for the chapter and appendix review, original versus revised examples, and the V5.2/V5.3 benchmark.
+
 ## V5.2 mobile stability
 
 - `python3 build.py --check` passed with 1,117 unique source IDs, 528 internal links and 52 local CSS/JavaScript references. The generated site is served from the same `docs/` directory used by the existing Pages workflow.

@@ -1,6 +1,6 @@
 # Heat Equation with a Dynamical Singular Potential on the Boundary
 
-Interactive mathematical exposition — V5.2 mobile stability update. The site retains the accepted editorial design, fourteen chapters, six appendices, theorem catalogue, bibliography, and scientific experiments.
+Interactive mathematical exposition — V5.3 mathematical exposition and typesetting update. The site retains the accepted editorial design, fourteen chapters, six appendices, theorem catalogue, bibliography, and scientific experiments.
 
 ## Preview locally
 
@@ -44,6 +44,10 @@ Open <http://localhost:8000> in a browser. The server only serves static files. 
 ```
 
 The `src/content/` files are **HTML fragments**, not independent browser pages. The generated index assembles them at build time. This is intentional: the original global navigation, cross-references, math renderer, and shared figure functions depend on the full document and original script order. Each chapter is now independently editable without duplicating navigation or changing the reader experience. There is no runtime fetching of article fragments. A future multi-page redesign is possible, but requires isolating figure initialization and remapping links; it is not part of this preservation refactor.
+
+## Mathematical exposition
+
+The six appendices distinguish hypotheses, conclusions and derivations. Mathematical prose, captions and reference labels use the site’s MathJax conventions. See the [mathematical exposition audit](MATHEMATICAL_EXPOSITION_AUDIT.md) for examples, chapter-by-chapter changes and verification.
 
 ## Mobile rendering
 

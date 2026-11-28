@@ -1,20 +1,102 @@
-<section class="chapter" id="app-integration40"><div class="eyebrow">Appendix A · Preliminary material</div><h2>Appendix A · Integration and analytical estimates</h2><p class="why"><strong>When to use this appendix.</strong> Use when a proof exchanges integrals or takes a limit; A.1 and A.2 support the kernel and positive-series arguments in Chapters 2 and 7.</p><p class="summary">A reference for the limiting operations in the kernel, variational and probability arguments. The fundamental measure and compactness theorems stated here are standard prerequisites; the consequences used in the exposition are derived explicitly.</p>
-<h3 id="app-measure40">A.1 Nonnegative integration and limiting operations</h3>
-<p>Work with σ-finite measures and measurable functions. Tonelli's theorem permits integration in either order for nonnegative functions, even when the integral is infinite. Fubini's theorem permits signed or complex integration in either order when the absolute integral is finite. These are invoked as standard measure theory results. On counting measure, integration is summation; this is the justification for exchanging series and nonnegative integrals in Proposition 2.2.</p>
-<p><strong>Monotone convergence.</strong> If \(0\le f_n\uparrow f\) almost everywhere, then \(\int f_n\uparrow\int f\). This follows from the definition of the Lebesgue integral by nonnegative simple functions (for each simple function below f, approximate its integral from below using the increasing level sets of f_n). The theorem applies to all regularization limits of nonnegative flux densities.</p>
-<p><strong>Fatou's lemma.</strong> For \(f_n\ge0\), \(\int\liminf_n f_n\le\liminf_n\int f_n\). Apply monotone convergence to \(g_m=\inf_{n\ge m} f_n\) and use \(\int g_m\le\inf_{n\ge m}\int f_n\). This gives the supersolution extension at boundary and terminal observations and the lower comparison for nonmonotone approximations.</p>
-<p><strong>Dominated convergence.</strong> If \(f_n\to f\) almost everywhere and \(|f_n|\le g\in L^1\), apply Fatou to \(2g-|f_n-f|\); it gives \(\int |f_n-f|\to0\). The pointwise majorant must be independent of n. For instance, the weighted heat-potential proof separates the recent-time interval before applying dominated convergence to earlier times.</p>
-<p><strong>Uniform integrability on a probability space.</strong> A family bounded in \(L^p\), p&gt;1, is uniformly integrable: \(\mathbb E[|Z|\mathbf1_{|Z|&gt;R}]\le R^{1-p}\mathbb E|Z|^p\). If a uniformly integrable sequence converges in probability, it converges in L¹ (truncate at height R, use convergence in probability for the bounded truncations, and use Fatou along a subsequence for the limit's tails). This is the relevant probability version, not an automatic consequence of bounded L¹ norms.</p>
-<h3 id="app-gaussian40">A.2 Gaussian estimates and approximate identities</h3>
-<p>Completing the square yields \(g_s*g_t=g_{s+t}\), and rescaling gives \(g_h(x)=h^{-N/2}g_1(x/\sqrt h)\). In particular \(\int_{|x|&gt;d}g_h(x)dx\to0\) for every d&gt;0. Splitting the convolution into the ball of radius d and its complement proves recovery at every continuity point of a bounded datum; compact uniform continuity gives locally uniform convergence. For L² data, Jensen gives contraction, and translation continuity in L² (first for smooth compact functions, then by density) gives \(\|g_h*f-f\|_2\to0\). Even reflection produces the half-space results in Chapter 2.</p>
-<p>For d&gt;0 and any real a, \(\int_0^\eta h^{-a}e^{-d^2/(C h)}dh\to0\) as η↓0: substitute \(v=d^2/(Ch)\) and use the exponential tail of a power times \(e^{-v}\). Also \(\int_0^\eta h^{-1/2}dh=2\sqrt\eta\). These are the two independent mechanisms for recent-time smallness in Chapters 7 and 9.</p>
-<h3 id="app-polar40">A.3 Polar integrability and homogeneous weights</h3>
-<p>In m spatial dimensions, for real β, the radial integral of a power over an annulus is the angular constant times</p><div class="eq">\[\int_a^R r^{m-1-\beta}dr=\begin{cases}(R^{m-\beta}-a^{m-\beta})/(m-\beta),&amp;\beta\ne m,\\\log(R/a),&amp;\beta=m.\end{cases}\tag{A.1}\]</div><p>Thus integrability at zero is equivalent to β&lt;m, while at infinity it requires β&gt;m. The boundary has dimension N−1, not N. The graph has boundary space-time measure zero because every time section is a singleton (Tonelli). These facts justify the endpoint exclusions in the harmonic heat representation and the dimension-two obstruction.</p>
-<h3 id="app-ineq40">A.4 Hölder, Young and Grönwall inequalities</h3>
-<p>For conjugate p,q&gt;1, convexity gives \(ab\le a^p/p+b^q/q\) for nonnegative a,b. Normalize the Lᵖ and Lᑫ norms and integrate to obtain Hölder. In particular \(ab\le\epsilon a^2/2+b^2/(2\epsilon)\) for ε&gt;0, the adjustable absorption estimate used in Chapters 7 and 13. Minkowski and the triangle inequality then give the standard norm estimates used throughout.</p>
-<p>If an absolutely continuous \(y\ge0\) satisfies \(y'\le Cy+g\) with g integrable and C constant, multiply by \(e^{-Ct}\) and integrate: \(y(t)\le e^{Ct}y(0)+\int_0^t e^{C(t-s)}g(s)ds\). If \(y'\) is replaced by an integrated inequality, apply the differential argument to the absolutely continuous majorant \(y(0)+\int_0^t(Cy+g)\) for C≥0 and g≥0. This is the version used in the energy comparison. A nonnegative sequence with \(y_{n+1}\le(1+C\Delta t)y_n+\Delta t g_n\) obeys the corresponding geometric-sum bound because \(1+C\Delta t\le e^{C\Delta t}\).</p>
-<h3 id="app-compact40">A.5 Compactness and uniform convergence</h3>
-<p><strong>Dini.</strong> For a monotonically increasing sequence of continuous real functions on a compact set K converging to a continuous finite function u, the open sets \(\{u-u_n&lt;\eta\}\) form an increasing cover of K. Compactness makes one set cover K, proving uniform convergence. The same proof works for decreasing sequences by changing sign.</p>
-<p><strong>Arzelà–Ascoli.</strong> Uniform boundedness and equicontinuity on compact K imply that every sequence has a uniformly convergent subsequence. For compact metric K, choose finite 1/j nets, take a diagonal subsequence converging at their countable union, then use equicontinuity and a finite net to prove uniform Cauchy convergence. Conversely, if every convergent subsequence has the same possible limit and the family is relatively compact, the full sequence converges. On an increasing compact exhaustion the diagonal argument gives local compactness. For the moving graph, compact subsets must stay a positive distance from the excluded graph; no claim is made about uniform convergence across it.</p>
-<p>Weak compactness and lower semicontinuity of norms in Hilbert spaces are recalled in <a href="#app-convergence">Appendix B.4</a>. The identity of a weak gradient is checked against smooth test functions, and local lower semicontinuity followed by exhaustion gives global nonnegative estimates without assuming global unweighted gradient control.</p></section>
+<section class="chapter" id="app-integration40"><div class="eyebrow">Appendix A · Preliminary material</div><h2>Appendix A · Integration and analytical estimates</h2>
+<p class="summary">Measure, kernel and compactness estimates for the integral formulation in <a href="#ch2">Chapter 2</a> and its limiting arguments in <a href="#ch7">Chapter 7</a>.</p>
 
+<h3 id="app-measure40">A.1 Nonnegative integration and limiting operations</h3>
+<h4>Tonelli and Fubini</h4>
+<p>Let \((X,\mathcal A,\mu)\) and \((Y,\mathcal B,\nu)\) be \(\sigma\)-finite measure spaces. For a nonnegative product-measurable function \(F\), Tonelli's theorem gives</p>
+<div class="eq">\[\begin{aligned}
+\int_{X\times Y}F\,d(\mu\otimes\nu)
+&=\int_X\!\left(\int_Y F(x,y)\,d\nu(y)\right)d\mu(x)\\
+&=\int_Y\!\left(\int_X F(x,y)\,d\mu(x)\right)d\nu(y).
+\end{aligned}\]</div>
+<p>The common value may be infinite. Fubini's theorem gives the same identities for signed or complex \(F\) if \(\int_{X\times Y}|F|\,d(\mu\otimes\nu)&lt;\infty\); then the sections are integrable almost everywhere. Counting measure gives the interchange of nonnegative sums and integrals in <a href="#thm-series40">Proposition 2.2</a>.</p>
+
+<h4>Monotone convergence, Fatou's lemma and dominated convergence</h4>
+<p>All functions below are measurable on \((X,\mathcal A,\mu)\), and all pointwise hypotheses hold almost everywhere.</p>
+<dl class="formal-results">
+<dt>Monotone convergence.</dt>
+<dd>If \(0\le f_n\uparrow f\), then \(\int_X f_n\,d\mu\uparrow\int_X f\,d\mu\).
+For a nonnegative simple function \(s\le f\) and \(0&lt;c&lt;1\), the sets \(\{f_n\ge cs\}\) increase to \(X\) up to null sets. Thus \(\lim_n\int_X f_n\,d\mu\ge c\int_X s\,d\mu\). Let \(c\uparrow 1\) and take the supremum over \(s\). This is the limit used for increasing regularizations of nonnegative flux densities.</dd>
+<dt>Fatou's lemma.</dt>
+<dd>If \(f_n\ge0\), then \(\int_X\liminf_n f_n\,d\mu\le\liminf_n\int_X f_n\,d\mu\). Indeed, \(g_m=\inf_{n\ge m}f_n\) increases to \(\liminf_n f_n\), and \(\int_X g_m\,d\mu\le\inf_{n\ge m}\int_X f_n\,d\mu\). This gives lower bounds for supersolutions at boundary and terminal observations and for nonmonotone approximations.</dd>
+<dt>Dominated convergence.</dt>
+<dd>If \(f_n\to f\) and \(|f_n|\le g\) for a single \(g\in L^1(X,\mu)\), then \(\|f_n-f\|_{L^1}\to0\). Apply Fatou's lemma to \(2g-|f_n-f|\). In <a href="#ch9">Chapter 9</a> the recent-time interval is estimated separately so that an integrable majorant can be used on the earlier-time interval.</dd>
+</dl>
+
+<h4>Uniform integrability</h4>
+<p>On a probability space, a family \(\mathcal Z\subset L^1\) is uniformly integrable if
+\(\lim_{R\to\infty}\sup_{Z\in\mathcal Z}\mathbb E[|Z|\mathbf1_{\{|Z|&gt;R\}}]=0\).
+A uniform \(L^p\) bound with \(p&gt;1\) suffices, since</p>
+<div class="eq">\[\mathbb E[|Z|\mathbf1_{\{|Z|&gt;R\}}]\le R^{1-p}\mathbb E|Z|^p.\]</div>
+<p>If \(Z_n\to Z\) in probability and the \(Z_n\) are uniformly integrable, then \(Z_n\to Z\) in \(L^1\). Fatou along an almost surely convergent subsequence bounds \(\mathbb E[(|Z|-R)_+]\) by \(\sup_n\mathbb E[(|Z_n|-R)_+]\). Truncation at height \(R\) gives bounded variables that converge in probability and hence in \(L^1\); the two truncation errors tend uniformly to zero as \(R\to\infty\). A mere uniform \(L^1\) bound does not imply the tail condition.</p>
+
+<h3 id="app-gaussian40">A.2 Gaussian estimates and approximate identities</h3>
+<p>Let \(g_h(x)=(4\pi h)^{-N/2}e^{-|x|^2/(4h)}\) on \(\mathbb R^N\) for \(h&gt;0\). Completing the square gives \(g_s*g_t=g_{s+t}\). The substitution \(x=\sqrt h\,y\) gives</p>
+<div class="eq">\[g_h(x)=h^{-N/2}g_1(x/\sqrt h),\qquad
+\int_{|x|&gt;d}g_h(x)\,dx=\int_{|y|&gt;d/\sqrt h}g_1(y)\,dy\longrightarrow0\quad(d&gt;0).\]</div>
+<p>For bounded \(f\), split \(g_h*f(x)-f(x)\) at radius \(d\). The inner contribution is bounded by \(\sup_{|y|\le d}|f(x-y)-f(x)|\); the outer contribution is bounded by \(2\|f\|_\infty\int_{|y|&gt;d}g_h(y)\,dy\). This proves convergence at continuity points and locally uniform convergence for continuous data by uniform continuity on enlarged compact sets.</p>
+<p>For \(f\in L^2(\mathbb R^N)\), Jensen's inequality for the probability density \(g_h\) gives</p>
+<div class="eq">\[\begin{aligned}
+\|g_h*f\|_2^2 &\le \int_{\mathbb R^N} g_h(y)\|f(\cdot-y)\|_2^2\,dy=\|f\|_2^2,\\
+\|g_h*f-f\|_2^2 &\le \int_{\mathbb R^N}g_h(y)\|f(\cdot-y)-f\|_2^2\,dy\longrightarrow0.
+\end{aligned}\]</div>
+<p>For the limit, use continuity of translations in \(L^2\), first for smooth compactly supported functions and then by density, and split at radius \(d\) as above. Even reflection gives the half-space version for the <a href="#kernel">Neumann kernel</a>.</p>
+<p>For \(C,d&gt;0\) and \(a\in\mathbb R\), the recent-time estimates are</p>
+<div class="eq">\[\begin{aligned}
+\int_0^\eta h^{-a}e^{-d^2/(Ch)}\,dh
+&=(d^2/C)^{1-a}\int_{d^2/(C\eta)}^\infty v^{a-2}e^{-v}\,dv\longrightarrow0,\\
+\int_0^\eta h^{-1/2}\,dh&=2\sqrt\eta\longrightarrow0
+\qquad(\eta\downarrow0).
+\end{aligned}\]</div>
+<p>The first estimate uses positive spatial separation to suppress any fixed power of \(h^{-1}\). The second controls the time singularity after spatial integration of the boundary kernel, even without separation. See <a href="#ch7">Chapter 7</a> and <a href="#ch9">Chapter 9</a>.</p>
+
+<h3 id="app-polar40">A.3 Polar integrability and homogeneous weights</h3>
+<p>In \(m\ge1\) dimensions, let \(\beta\in\mathbb R\) and \(0&lt;a&lt;R\). After factoring out the surface measure of the unit sphere,
+</p><div class="eq">\[\int_a^R r^{m-1-\beta}dr=\begin{cases}(R^{m-\beta}-a^{m-\beta})/(m-\beta),&amp;\beta\ne m,\\\log(R/a),&amp;\beta=m.\end{cases}\tag{A.1}\]</div>
+<p>Integrability at zero is equivalent to \(\beta&lt;m\), and integrability at infinity to \(\beta&gt;m\). At \(\beta=m\) both divergences are logarithmic. The boundary dimension is \(N-1\), whereas the bulk dimension is \(N\). The moving graph has boundary space-time measure zero by Tonelli, since each time section is a singleton. These facts govern the endpoint exclusions in the harmonic representation and the dimension-two obstruction.</p>
+
+<h3 id="app-ineq40">A.4 Young, Hölder, Minkowski and Grönwall inequalities</h3>
+<h4>Young's inequality</h4>
+<p>Let \(a,b\ge0\), \(p,q&gt;1\), and \(p^{-1}+q^{-1}=1\). Then</p>
+<div class="eq">\[ab\le \frac{a^p}{p}+\frac{b^q}{q}.\]</div>
+<p>For positive \(a,b\), apply concavity of \(\log\) to \(a^p,b^q\) with weights \(1/p,1/q\), then exponentiate. If either factor is zero, the inequality follows from nonnegativity. Taking \(p=q=2\) and rescaling the factors by \(\sqrt\varepsilon\) and \(1/\sqrt\varepsilon\) gives</p>
+<div class="eq">\[ab\le \frac{\varepsilon}{2}a^2+\frac{1}{2\varepsilon}b^2,\qquad\varepsilon&gt;0.\]</div>
+<p>In the <a href="#lemma-trace">trace estimate</a> take \(a=\|\partial_N w\|_2\), \(b=\|w\|_2\) and multiply by two. In the localized energy estimates in <a href="#ch7">Chapter 7</a> and <a href="#ch13">Chapter 13</a>, the same inequality splits mixed products of the cutoff-weighted gradient and a cutoff derivative into squares. The coefficient of the gradient square is chosen below the available coercive margin; the other term is bounded by the corresponding cutoff error.</p>
+<h4>Hölder's inequality</h4>
+<p>Let \((X,\mathcal A,\mu)\) be a measure space. Assume</p>
+<ol class="math-hypotheses" type="i">
+<li>\(p,q&gt;1\) and \(p^{-1}+q^{-1}=1\);</li>
+<li>\(f\in L^p(X,\mu)\);</li>
+<li>\(g\in L^q(X,\mu)\).</li>
+</ol>
+<div class="eq">\[\int_X |fg|\,d\mu\le\|f\|_{L^p}\|g\|_{L^q}.\]</div>
+<div class="proof"><p><strong>Proof.</strong> If either norm vanishes, \(fg=0\) almost everywhere. Otherwise put \(F=|f|/\|f\|_{L^p}\) and \(G=|g|/\|g\|_{L^q}\). Young's inequality gives</p>
+<div class="eq">\[\begin{aligned}
+\int_X FG\,d\mu
+&\le \frac{1}{p}\int_X F^p\,d\mu+\frac{1}{q}\int_X G^q\,d\mu\\
+&=\frac1p+\frac1q=1.
+\end{aligned}\]</div>
+<p>Multiply by the two norms. <span class="qed">∎</span></p></div>
+<h4>Minkowski's inequality</h4>
+<p>For \(1\le p\le\infty\) and \(f,g\in L^p(X,\mu)\), one has \(\|f+g\|_{L^p}\le\|f\|_{L^p}+\|g\|_{L^p}\). At the endpoints, apply the pointwise triangle inequality and take the integral or essential supremum. For \(1&lt;p&lt;\infty\), \(f+g\) has finite norm by \((a+b)^p\le2^{p-1}(a^p+b^p)\), a consequence of convexity of \(t^p\). Hölder gives</p>
+<div class="eq">\[\|f+g\|_{L^p}^p\le\int_X(|f|+|g|)|f+g|^{p-1}\,d\mu
+\le(\|f\|_{L^p}+\|g\|_{L^p})\|f+g\|_{L^p}^{p-1}.\]</div>
+<p>Divide by the final factor if it is nonzero.</p>
+<h4>Grönwall's inequality</h4>
+<dl class="formal-results">
+<dt>Differential form.</dt><dd>Let \(y\ge0\) be absolutely continuous on \([0,T]\), \(g\in L^1(0,T)\), \(C\in\mathbb R\), and \(y'\le Cy+g\) almost everywhere. Integrating \((e^{-Ct}y(t))'\le e^{-Ct}g(t)\) gives
+<div class="eq">\[y(t)\le e^{Ct}y(0)+\int_0^t e^{C(t-s)}g(s)\,ds.\]</div></dd>
+<dt>Integral form.</dt><dd>If \(y\ge0\) is integrable, \(C\ge0\), \(g\ge0\) is integrable, and \(y(t)\le y_0+\int_0^t(Cy(s)+g(s))\,ds\) with \(y_0\ge0\), apply the differential form to the right-hand side \(Y(t)\). It satisfies \(Y'\le CY+g\) and \(Y(0)=y_0\); thus the same bound holds at each time for which \(y\le Y\). See the <a href="#app-forms">form evolution estimate</a>.</dd>
+<dt>Discrete form.</dt><dd>For \(C\ge0\), \(\Delta t&gt;0\), \(g_j\ge0\), and \(0\le y_{j+1}\le(1+C\Delta t)y_j+\Delta t\,g_j\), induction gives
+<div class="eq">\[\begin{aligned}
+y_n&\le (1+C\Delta t)^ny_0+\Delta t\sum_{j=0}^{n-1}(1+C\Delta t)^{n-1-j}g_j\\
+&\le e^{Cn\Delta t}y_0+\Delta t\sum_{j=0}^{n-1}e^{C(n-1-j)\Delta t}g_j.
+\end{aligned}\]</div></dd>
+</dl>
+
+<h3 id="app-compact40">A.5 Compactness and uniform convergence</h3>
+<p><strong>Dini's theorem.</strong> Let \(u_n\) be an increasing sequence in \(C(K;\mathbb R)\), where \(K\) is compact. If \(u_n\to u\) pointwise and \(u\) is continuous and finite, then the convergence is uniform. For each \(\eta&gt;0\) the sets \(\{x\in K:u(x)-u_n(x)&lt;\eta\}\) form an increasing open cover. A finite subcover exists, so the largest index in it already covers \(K\). For a decreasing sequence apply the argument to \(-u_n\).</p>
+<p><strong>Arzelà–Ascoli.</strong> On a compact metric space \(K\), a uniformly bounded, equicontinuous sequence of real continuous functions has a uniformly convergent subsequence. Choose finite \(1/j\)-nets for \(j\ge1\) and extract a diagonal subsequence converging on their countable union. For a given error tolerance, choose a net fine enough that equicontinuity bounds the differences between values at a point and its nearest net point. Convergence at the finitely many net points then makes the subsequence uniformly Cauchy.</p>
+<p>If a relatively compact sequence has only one subsequential limit, the full sequence converges: otherwise a subsequence staying a positive distance from that limit would have a convergent subsequence. Diagonal extraction over a compact exhaustion yields local compactness. In the moving-pole arguments the compact sets must stay a positive distance from the excluded graph.</p>
+<p>For weak compactness and lower semicontinuity see <a href="#app-convergence">Appendix B.4</a>. Identify weak gradients against smooth tests, take the lower bound on each compact region, and exhaust the domain to bound the global nonnegative integral without assuming global unweighted gradient control.</p>
+</section>
