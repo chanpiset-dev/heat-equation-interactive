@@ -23,7 +23,7 @@ def main():
         try:
             with sync_playwright() as pw:
                 browser = pw.chromium.launch(executable_path=args.chromium, args=['--no-sandbox'])
-                page = browser.new_page(viewport={'width': 390, 'height': 844})
+                page = browser.new_page(viewport={'width': 390, 'height': 844}, has_touch=True)
                 errors = []
                 page.on('pageerror', lambda error: errors.append(str(error)))
                 def console_error(message):
@@ -112,18 +112,21 @@ def main():
                 assert variation.locator('mjx-container').count() == 1
                 print('Quadratic variation proof deferred, deep-linked, copied, and reopened.', flush=True)
 
-                appendix_b = page.locator('#toc .toc-chapter50').filter(
-                    has=page.locator('a.toc-start50[href="#app-functional"]'))
-                hashes = appendix_b.locator('.toc-chapter-links50 a').evaluate_all(
-                    'links => links.map(link => link.hash)')
-                assert len(hashes) == len(set(hashes)) == 9, hashes
+                for section_id, count in (('app-integration40', 5), ('app-functional', 9)):
+                    appendix = page.locator('#toc .toc-chapter50').filter(
+                        has=page.locator(f'a.toc-start50[href="#{section_id}"]'))
+                    hashes = appendix.locator('.toc-chapter-links50 a').evaluate_all(
+                        'links => links.map(link => link.hash)')
+                    expected = page.locator(f'#{section_id} > h3[id]').evaluate_all(
+                        'headings => headings.map(heading => "#" + heading.id)')
+                    assert len(hashes) == len(set(hashes)) == count and hashes == expected, hashes
 
                 new_proof_ids = (
                     'proof-ito-simple', 'proof-ito-extension', 'proof-ito-localization',
                     'proof-mixed-variation', 'proof-reflected-ito', 'proof-reflection-crossing',
                     'proof-regulator-law', 'proof-gaussian-moments', 'proof-bridge-inverse',
                     'proof-stieltjes-quadrature', 'proof-sampling-variance', 'proof-contraction-b9',
-                    'proof-affine-b9', 'proof-parameter-b9',
+                    'proof-affine-b9', 'proof-parameter-b9', 'proof-bounded-completeness',
                 )
                 for proof_id in new_proof_ids:
                     disclosure = page.locator('#' + proof_id)
@@ -142,24 +145,53 @@ def main():
                     summary.click()
                     assert math.count() == count, proof_id
                     summary.click()
-                print('All new Appendix B and E proofs opened independently without duplicate math.', flush=True)
+                print('Appendix A, B, and E proofs opened independently without duplicate math.', flush=True)
+
+                page.goto(origin + '#app-contraction9')
+                page.wait_for_function("""() => {
+                    const {top} = document.getElementById('app-contraction9').getBoundingClientRect();
+                    return top >= 0 && top < innerHeight;
+                }""")
+                affine = page.locator('#app-affine-fixed-point + .statement .eq')
+                affine.evaluate("e => e.scrollIntoView({behavior:'instant',block:'center'})")
+                affine.locator('mjx-container').wait_for()
+                affine.locator('button.copy').evaluate('button => button.click()')
+                page.wait_for_function(r"window.copiedTex?.includes('\\sum_{k=0}^{\\infty}')")
 
                 page.locator('#menu').click()
                 page.locator('#tocSearch50').fill('parameter integrals')
                 page.locator('.toc-results50 a[href="#app-parameter-measurability"]').click()
                 assert page.url.endswith('#app-parameter-measurability')
+                assert page.locator('#app-integration40 #app-parameter-measurability').count() == 1
+                relocated = page.locator('#app-integration40 #proof-parameter-b9')
+                assert relocated.get_attribute('open') is None
+                summary = relocated.locator('summary')
+                summary.tap()
+                relocated.locator('mjx-container').first.wait_for()
+                summary.focus()
+                page.keyboard.press('Enter')
+                assert relocated.get_attribute('open') is None
+
+                page.goto(origin + '#eq-window9')
+                page.locator('#ch9 a[href="#app-parameter-measurability"]').click()
+                assert page.url.endswith('#app-parameter-measurability')
+                page.goto(origin + '#proof-parameter-b9')
+                page.wait_for_function("document.getElementById('proof-parameter-b9').open")
+                relocated.locator('summary').evaluate('e => {e.parentElement.open = false}')
                 page.goto(origin + '#proof-reflected-ito')
                 assert page.locator('#proof-reflected-ito').get_attribute('open') is not None
-                print('Appendix B navigation, parameter search, and proof-root deep link passed.', flush=True)
+                print('A/B navigation, B.9 copy, relocated A.1 search and links, and touch/keyboard passed.', flush=True)
 
                 for id in ('result-11-2', 'result-11-first', 'result-11-3', 'result-11-4'):
                     assert page.locator('#' + id).evaluate("e => !e.closest('details')")
                 proof.locator('summary').evaluate('e => {e.parentElement.open = false}')
                 page.evaluate("dispatchEvent(new Event('beforeprint'))")
                 assert proof.get_attribute('open') is not None
+                assert relocated.get_attribute('open') is not None
                 assert page.locator('article mjx-merror, article [data-mml-node="merror"]').count() == 0
                 page.evaluate("dispatchEvent(new Event('afterprint'))")
                 assert proof.get_attribute('open') is None
+                assert relocated.get_attribute('open') is None
                 assert page.locator('#app-monotone + dd details[open]').count() == 1
                 assert not errors, errors
 

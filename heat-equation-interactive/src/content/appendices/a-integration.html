@@ -2,6 +2,18 @@
 <p class="summary">Measure, kernel and compactness estimates for the integral formulation in <a href="#ch2">Chapter 2</a> and its limiting arguments in <a href="#ch7">Chapter 7</a>.</p>
 
 <h3 id="app-measure40">A.1 Nonnegative integration and limiting operations</h3>
+<h4 id="app-parameter-measurability">Measurability of parameter integrals</h4>
+<div class="statement">
+<p>Let \((X,\mathcal A)\) be a measurable space and \((Y,\mathcal B,\nu)\) a \(\sigma\)-finite measure space. For \(\mathcal A\otimes\mathcal B\)-measurable \(f:X\times Y\to[0,\infty]\), the extended integral \(x\mapsto\int_Y f(x,y)\,d\nu(y)\) is \(\mathcal A\)-measurable.</p>
+<p>For signed product-measurable \(f\), the integral is finite and measurable on the measurable set where \(\int_Y f^+(x,y)\,d\nu(y)\) and \(\int_Y f^-(x,y)\,d\nu(y)\) are both finite. If exactly one is infinite, their difference is an extended value. Where both are infinite, the signed integral is undefined.</p>
+</div>
+<details class="proof" id="proof-parameter-b9"><summary>Proof of parameter-integral measurability</summary>
+<p>For each fixed \(x\), the sets \(E\subseteq X\times Y\) whose section \(E_x=\{y:(x,y)\in E\}\) is measurable form a \(\sigma\)-algebra containing rectangles. Thus every product-measurable set has measurable sections, and \(f(x,\cdot)\) is measurable by taking sections of its level sets.</p>
+<p>First assume \(\nu(Y)&lt;\infty\). For a rectangle \(C\times D\), the section measure is \(\mathbf1_C(x)\nu(D)\). The sets \(E\in\mathcal A\otimes\mathcal B\) with measurable section measure form a Dynkin system: the whole product has constant section measure, nested differences give subtraction of finite measures, and disjoint countable unions give sums of nonnegative measurable functions. Rectangles form a generating \(\pi\)-system, so the \(\pi\)-\(\lambda\) theorem applies. Nonnegative simple functions follow by finite sums, and increasing simple approximations give the claim for nonnegative \(f\) by monotone convergence.</p>
+<p>For \(\sigma\)-finite \(\nu\), take an increasing measurable exhaustion \(Y_j\) of finite measure. The integrals over \(Y_j\) increase to the full integral for each \(x\), and their limit is measurable. Applying this result to the two parts of a signed function gives the measurable domain of finiteness and the difference there. <span class="qed">∎</span></p>
+</details>
+<p>Chapter 9 uses this result for the <a href="#eq-window9">moving kernels and fixed-point terms</a>. The <a href="#eq-history9">continuation argument</a> uses Tonelli to exchange nonnegative integrals.</p>
+
 <h4>Tonelli and Fubini</h4>
 <p>Let \((X,\mathcal A,\mu)\) and \((Y,\mathcal B,\nu)\) be \(\sigma\)-finite measure spaces. For a nonnegative product-measurable function \(F\), Tonelli's theorem gives</p>
 <div class="eq">\[\begin{aligned}

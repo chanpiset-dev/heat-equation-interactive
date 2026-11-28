@@ -1,5 +1,17 @@
 # Verification
 
+## Appendix B.9 refinement
+
+| Check | Result |
+| --- | --- |
+| Static build | PASS. 1,148 unique IDs, 599 internal links, and 52 local CSS and JavaScript references. |
+| Chromium HTTP browser smoke | PASS at seven widths from 320 to 1440 CSS pixels. 4,671 rendered expressions, zero MathJax errors, 74 figures, and 54 playback controls. |
+| Mathematical readability suite | PASS. The B.9 URL, A.1 statement and proof URLs, Chapter 9 cross-reference, Appendix A and B contents, equation copying, touch and keyboard input, and print disclosure and restoration were verified. |
+| Scientific regression | PASS. The 61-frame PDE checksum and seeded Monte Carlo readout matched V5.6. |
+| WebKit and physical iOS Safari | NOT TESTED. |
+
+The [Appendix B.9 refinement audit](APPENDIX_B9_REFINEMENT_AUDIT.md) records the baseline, proof review, test commands, and remaining physical-device checks.
+
 ## V5.6 mathematical consistency and rigor
 
 | Check | Result |
