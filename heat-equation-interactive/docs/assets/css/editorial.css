@@ -61,3 +61,13 @@ article mjx-container[display="true"] { max-width: 100%; overflow-x: auto; overf
 .formal-results > dt { font-weight: 650; margin-block-start: .8em; }
 .formal-results > dd { margin-inline-start: 1.25em; }
 #toc mjx-container { max-width: 100%; }
+
+
+/* Keep proof indentation modest on narrow pages. */
+details.proof > .proof-body { margin-block: .55rem .25rem; }
+details.proof > .proof-body > :first-child { margin-block-start: 0; }
+.formal-results > dd > details.proof { margin-block: .75rem 1.2rem; }
+.formal-results > dd > details.proof > summary { min-height: 32px; }
+@media (max-width: 650px) {
+ .formal-results > dd { margin-inline-start: .75em; }
+}

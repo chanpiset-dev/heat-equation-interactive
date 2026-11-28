@@ -11,24 +11,52 @@
 \end{aligned}\]</div>
 <p>The common value may be infinite. Fubini's theorem gives the same identities for signed or complex \(F\) if \(\int_{X\times Y}|F|\,d(\mu\otimes\nu)&lt;\infty\); then the sections are integrable almost everywhere. Counting measure gives the interchange of nonnegative sums and integrals in <a href="#thm-series40">Proposition 2.2</a>.</p>
 
-<h4>Monotone convergence, Fatou's lemma and dominated convergence</h4>
-<p>All functions below are measurable on \((X,\mathcal A,\mu)\), and all pointwise hypotheses hold almost everywhere.</p>
+<h4>Convergence theorems</h4>
+<p>Let \((X,\mathcal A,\mu)\) be a measure space. All functions below are measurable and the pointwise hypotheses hold almost everywhere.</p>
 <dl class="formal-results">
-<dt>Monotone convergence.</dt>
-<dd>If \(0\le f_n\uparrow f\), then \(\int_X f_n\,d\mu\uparrow\int_X f\,d\mu\).
-For a nonnegative simple function \(s\le f\) and \(0&lt;c&lt;1\), the sets \(\{f_n\ge cs\}\) increase to \(X\) up to null sets. Thus \(\lim_n\int_X f_n\,d\mu\ge c\int_X s\,d\mu\). Let \(c\uparrow 1\) and take the supremum over \(s\). This is the limit used for increasing regularizations of nonnegative flux densities.</dd>
-<dt>Fatou's lemma.</dt>
-<dd>If \(f_n\ge0\), then \(\int_X\liminf_n f_n\,d\mu\le\liminf_n\int_X f_n\,d\mu\). Indeed, \(g_m=\inf_{n\ge m}f_n\) increases to \(\liminf_n f_n\), and \(\int_X g_m\,d\mu\le\inf_{n\ge m}\int_X f_n\,d\mu\). This gives lower bounds for supersolutions at boundary and terminal observations and for nonmonotone approximations.</dd>
-<dt>Dominated convergence.</dt>
-<dd>If \(f_n\to f\) and \(|f_n|\le g\) for a single \(g\in L^1(X,\mu)\), then \(\|f_n-f\|_{L^1}\to0\). Apply Fatou's lemma to \(2g-|f_n-f|\). In <a href="#ch9">Chapter 9</a> the recent-time interval is estimated separately so that an integrable majorant can be used on the earlier-time interval.</dd>
+<dt id="app-monotone">Monotone convergence theorem</dt>
+<dd>If \(f_n:X\to[0,\infty]\) and \(f_n\uparrow f\), then
+<div class="eq">\[\lim_{n\to\infty}\int_X f_n\,d\mu=\int_X f\,d\mu.\]</div>
+<details class="proof"><summary>Proof of monotone convergence</summary>
+<p>Since \(f_n\le f\), the limit of the integrals is at most \(\int_Xf\,d\mu\). For a nonnegative simple function \(s\le f\) and \(0&lt;c&lt;1\), the sets \(E_n=\{f_n\ge cs\}\) increase to \(X\) up to a null set. Each level set of \(s\) has increasing intersection with \(E_n\). Continuity from below of the measure gives</p>
+<div class="eq">\[\lim_n\int_X f_n\,d\mu\ge c\lim_n\int_{E_n}s\,d\mu=c\int_X s\,d\mu.\]</div>
+<p>Let \(c\uparrow1\) and take the supremum over \(s\) for the reverse bound. <span class="qed">∎</span></p>
+</details></dd>
+<dt id="app-fatou">Fatou's lemma</dt>
+<dd>If \(f_n:X\to[0,\infty]\), then
+<div class="eq">\[\int_X\liminf_{n\to\infty} f_n\,d\mu\le\liminf_{n\to\infty}\int_X f_n\,d\mu.\]</div>
+<details class="proof"><summary>Proof of Fatou's lemma</summary>
+<p>Set \(g_m=\inf_{n\ge m}f_n\). Then \(g_m\uparrow\liminf_n f_n\). By <a href="#app-monotone">monotone convergence</a>,</p>
+<div class="eq">\[\begin{aligned}
+\int_X\liminf_n f_n\,d\mu
+&=\lim_m\int_X g_m\,d\mu\\
+&\le\lim_m\inf_{n\ge m}\int_X f_n\,d\mu
+=\liminf_n\int_X f_n\,d\mu.
+\end{aligned}\]</div><span class="qed">∎</span>
+</details></dd>
+<dt id="app-dominated">Dominated convergence theorem</dt>
+<dd>If \(f_n\to f\) and \(|f_n|\le g\) for a single nonnegative \(g\in L^1(X,\mu)\), then \(f\in L^1(X,\mu)\) and
+<div class="eq">\[\lim_{n\to\infty}\|f_n-f\|_{L^1}=0.\]</div>
+<details class="proof"><summary>Proof of dominated convergence</summary>
+<p>The limiting bound \(|f|\le g\) gives integrability. Apply <a href="#app-fatou">Fatou's lemma</a> to \(2g-|f_n-f|\ge0\).</p>
+<div class="eq">\[\begin{aligned}
+2\int_Xg\,d\mu
+&\le\liminf_n\int_X(2g-|f_n-f|)\,d\mu\\
+&=2\int_Xg\,d\mu-\limsup_n\|f_n-f\|_{L^1}.
+\end{aligned}\]</div>
+<p>Subtract the finite integral to obtain \(\limsup_n\|f_n-f\|_{L^1}\le0\). <span class="qed">∎</span></p>
+</details></dd>
 </dl>
-
+<p>In <a href="#ch7-limit">§7.8</a>, monotone convergence passes from increasing regularizations to the boundary integral. Fatou gives lower bounds at boundary and terminal observations even for nonmonotone approximations. In <a href="#ch9-continuity">§9.5</a>, the recent-time contribution is estimated separately so that dominated convergence can be used on earlier times.</p>
 <h4>Uniform integrability</h4>
 <p>On a probability space, a family \(\mathcal Z\subset L^1\) is uniformly integrable if
 \(\lim_{R\to\infty}\sup_{Z\in\mathcal Z}\mathbb E[|Z|\mathbf1_{\{|Z|&gt;R\}}]=0\).
 A uniform \(L^p\) bound with \(p&gt;1\) suffices, since</p>
 <div class="eq">\[\mathbb E[|Z|\mathbf1_{\{|Z|&gt;R\}}]\le R^{1-p}\mathbb E|Z|^p.\]</div>
-<p>If \(Z_n\to Z\) in probability and the \(Z_n\) are uniformly integrable, then \(Z_n\to Z\) in \(L^1\). Fatou along an almost surely convergent subsequence bounds \(\mathbb E[(|Z|-R)_+]\) by \(\sup_n\mathbb E[(|Z_n|-R)_+]\). Truncation at height \(R\) gives bounded variables that converge in probability and hence in \(L^1\); the two truncation errors tend uniformly to zero as \(R\to\infty\). A mere uniform \(L^1\) bound does not imply the tail condition.</p>
+<p>If \(Z_n\to Z\) in probability and the \(Z_n\) are uniformly integrable, then \(Z_n\to Z\) in \(L^1\).</p>
+<details class="proof"><summary>Proof of the uniform integrability criterion</summary>
+<p>Fatou along an almost surely convergent subsequence bounds \(\mathbb E[(|Z|-R)_+]\) by \(\sup_n\mathbb E[(|Z_n|-R)_+]\), which tends to zero. For each fixed \(R\), truncations at height \(R\) converge in probability and, being uniformly bounded, converge in \(L^1\). The triangle inequality combines this limit with the two truncation errors. A uniform \(L^1\) bound alone does not imply the uniform tail condition. <span class="qed">∎</span></p>
+</details>
 
 <h3 id="app-gaussian40">A.2 Gaussian estimates and approximate identities</h3>
 <p>Let \(g_h(x)=(4\pi h)^{-N/2}e^{-|x|^2/(4h)}\) on \(\mathbb R^N\) for \(h&gt;0\). Completing the square gives \(g_s*g_t=g_{s+t}\). The substitution \(x=\sqrt h\,y\) gives</p>
@@ -57,46 +85,78 @@ A uniform \(L^p\) bound with \(p&gt;1\) suffices, since</p>
 
 <h3 id="app-ineq40">A.4 Young, Hölder, Minkowski and Grönwall inequalities</h3>
 <h4>Young's inequality</h4>
-<p>Let \(a,b\ge0\), \(p,q&gt;1\), and \(p^{-1}+q^{-1}=1\). Then</p>
+<p>Let \(a,b\ge0\) and \(p,q&gt;1\) with \(1/p+1/q=1\). Then</p>
 <div class="eq">\[ab\le \frac{a^p}{p}+\frac{b^q}{q}.\]</div>
-<p>For positive \(a,b\), apply concavity of \(\log\) to \(a^p,b^q\) with weights \(1/p,1/q\), then exponentiate. If either factor is zero, the inequality follows from nonnegativity. Taking \(p=q=2\) and rescaling the factors by \(\sqrt\varepsilon\) and \(1/\sqrt\varepsilon\) gives</p>
-<div class="eq">\[ab\le \frac{\varepsilon}{2}a^2+\frac{1}{2\varepsilon}b^2,\qquad\varepsilon&gt;0.\]</div>
-<p>In the <a href="#lemma-trace">trace estimate</a> take \(a=\|\partial_N w\|_2\), \(b=\|w\|_2\) and multiply by two. In the localized energy estimates in <a href="#ch7">Chapter 7</a> and <a href="#ch13">Chapter 13</a>, the same inequality splits mixed products of the cutoff-weighted gradient and a cutoff derivative into squares. The coefficient of the gradient square is chosen below the available coercive margin; the other term is bounded by the corresponding cutoff error.</p>
-<h4>Hölder's inequality</h4>
-<p>Let \((X,\mathcal A,\mu)\) be a measure space. Assume</p>
-<ol class="math-hypotheses" type="i">
-<li>\(p,q&gt;1\) and \(p^{-1}+q^{-1}=1\);</li>
-<li>\(f\in L^p(X,\mu)\);</li>
-<li>\(g\in L^q(X,\mu)\).</li>
-</ol>
+<p>In particular, for \(\varepsilon&gt;0\),</p>
+<div class="eq">\[ab\le \frac{\varepsilon}{2}a^2+\frac{1}{2\varepsilon}b^2.\]</div>
+<details class="proof"><summary>Proof of Young's inequality</summary>
+<p>For positive \(a,b\), apply concavity of \(\log\) to \(a^p,b^q\) with weights \(1/p,1/q\), then exponentiate. If either factor vanishes, use nonnegativity. For the adjustable estimate take \(p=q=2\) and apply the first inequality to \(\sqrt\varepsilon\,a\) and \(b/\sqrt\varepsilon\). <span class="qed">∎</span></p>
+</details>
+<p>In the <a href="#lemma-trace">trace estimate</a>, take \(a=\|\partial_N w\|_2\), \(b=\|w\|_2\) and multiply by two. In the localized energy estimates in <a href="#ch7-local">§7.4</a> and <a href="#ch13">Chapter 13</a>, choose the coefficient of the cutoff-weighted gradient square below the coercive margin. The other square contributes the cutoff error.</p>
+
+<h4 id="app-holder">Hölder's inequality</h4>
+<p>Let \((X,\mathcal A,\mu)\) be a measure space and \(p,q&gt;1\) satisfy \(1/p+1/q=1\). If \(f\in L^p(X,\mu)\) and \(g\in L^q(X,\mu)\), then</p>
 <div class="eq">\[\int_X |fg|\,d\mu\le\|f\|_{L^p}\|g\|_{L^q}.\]</div>
-<div class="proof"><p><strong>Proof.</strong> If either norm vanishes, \(fg=0\) almost everywhere. Otherwise put \(F=|f|/\|f\|_{L^p}\) and \(G=|g|/\|g\|_{L^q}\). Young's inequality gives</p>
+<details class="proof"><summary>Proof of Hölder's inequality</summary>
+<p>If either norm vanishes, \(fg=0\) almost everywhere. Otherwise put \(F=|f|/\|f\|_{L^p}\) and \(G=|g|/\|g\|_{L^q}\). Young's inequality gives</p>
 <div class="eq">\[\begin{aligned}
 \int_X FG\,d\mu
-&\le \frac{1}{p}\int_X F^p\,d\mu+\frac{1}{q}\int_X G^q\,d\mu\\
+&\le \frac1p\int_X F^p\,d\mu+\frac1q\int_X G^q\,d\mu\\
 &=\frac1p+\frac1q=1.
 \end{aligned}\]</div>
-<p>Multiply by the two norms. <span class="qed">∎</span></p></div>
+<p>Multiply by the two norms. <span class="qed">∎</span></p>
+</details>
+
 <h4>Minkowski's inequality</h4>
-<p>For \(1\le p\le\infty\) and \(f,g\in L^p(X,\mu)\), one has \(\|f+g\|_{L^p}\le\|f\|_{L^p}+\|g\|_{L^p}\). At the endpoints, apply the pointwise triangle inequality and take the integral or essential supremum. For \(1&lt;p&lt;\infty\), \(f+g\) has finite norm by \((a+b)^p\le2^{p-1}(a^p+b^p)\), a consequence of convexity of \(t^p\). Hölder gives</p>
-<div class="eq">\[\|f+g\|_{L^p}^p\le\int_X(|f|+|g|)|f+g|^{p-1}\,d\mu
-\le(\|f\|_{L^p}+\|g\|_{L^p})\|f+g\|_{L^p}^{p-1}.\]</div>
-<p>Divide by the final factor if it is nonzero.</p>
+<p>For \(1\le p\le\infty\) and \(f,g\in L^p(X,\mu)\),</p>
+<div class="eq">\[\|f+g\|_{L^p}\le\|f\|_{L^p}+\|g\|_{L^p}.\]</div>
+<details class="proof"><summary>Proof of Minkowski's inequality</summary>
+<p>At the endpoints, integrate the pointwise triangle inequality or take the essential supremum. For \(1&lt;p&lt;\infty\), convexity gives \((a+b)^p\le2^{p-1}(a^p+b^p)\), so \(f+g\in L^p\). Hölder gives</p>
+<div class="eq">\[\begin{aligned}
+\|f+g\|_{L^p}^p
+&\le\int_X(|f|+|g|)|f+g|^{p-1}\,d\mu\\
+&\le(\|f\|_{L^p}+\|g\|_{L^p})\|f+g\|_{L^p}^{p-1}.
+\end{aligned}\]</div>
+<p>Divide by the last factor if it is nonzero. <span class="qed">∎</span></p>
+</details>
+
 <h4>Grönwall's inequality</h4>
 <dl class="formal-results">
-<dt>Differential form.</dt><dd>Let \(y\ge0\) be absolutely continuous on \([0,T]\), \(g\in L^1(0,T)\), \(C\in\mathbb R\), and \(y'\le Cy+g\) almost everywhere. Integrating \((e^{-Ct}y(t))'\le e^{-Ct}g(t)\) gives
-<div class="eq">\[y(t)\le e^{Ct}y(0)+\int_0^t e^{C(t-s)}g(s)\,ds.\]</div></dd>
-<dt>Integral form.</dt><dd>If \(y\ge0\) is integrable, \(C\ge0\), \(g\ge0\) is integrable, and \(y(t)\le y_0+\int_0^t(Cy(s)+g(s))\,ds\) with \(y_0\ge0\), apply the differential form to the right-hand side \(Y(t)\). It satisfies \(Y'\le CY+g\) and \(Y(0)=y_0\); thus the same bound holds at each time for which \(y\le Y\). See the <a href="#app-forms">form evolution estimate</a>.</dd>
-<dt>Discrete form.</dt><dd>For \(C\ge0\), \(\Delta t&gt;0\), \(g_j\ge0\), and \(0\le y_{j+1}\le(1+C\Delta t)y_j+\Delta t\,g_j\), induction gives
+<dt id="app-gronwall">Differential form.</dt>
+<dd>Let \(y\ge0\) be absolutely continuous on \([0,T]\), with \(g\in L^1(0,T)\) and \(C\in\mathbb R\). If \(y'\le Cy+g\) almost everywhere, then for every \(t\in[0,T]\),
+<div class="eq">\[y(t)\le e^{Ct}y(0)+\int_0^t e^{C(t-s)}g(s)\,ds.\]</div>
+<details class="proof"><summary>Proof of differential Grönwall</summary>
+<p>The product \(e^{-Ct}y(t)\) is absolutely continuous and its derivative is bounded above almost everywhere by \(e^{-Ct}g(t)\). Integration on \((0,t)\) gives</p>
+<div class="eq" id="app-gronwall-factor" data-search-text="Integrating factor · Differential Grönwall">\[e^{-Ct}y(t)-y(0)\le\int_0^t e^{-Cs}g(s)\,ds.\]</div>
+<p>Multiply by \(e^{Ct}\). <span class="qed">∎</span></p>
+</details></dd>
+
+<dt>Integral form.</dt>
+<dd>Let \(y,g\ge0\) be integrable on \((0,T)\) and \(C,y_0\ge0\). Suppose \(y(t)\le y_0+\int_0^t(Cy(s)+g(s))\,ds\) almost everywhere. At every time where this inequality holds,
+<div class="eq">\[y(t)\le e^{Ct}y_0+\int_0^t e^{C(t-s)}g(s)\,ds.\]</div>
+<details class="proof"><summary>Proof of integral Grönwall</summary>
+<p>The right-hand side of the hypothesis defines an absolutely continuous majorant \(Y\). Since \(C\ge0\) and \(y\le Y\) almost everywhere, \(Y'\le CY+g\) and \(Y(0)=y_0\). Apply the differential form to \(Y\), then use the original pointwise bound wherever it holds. <span class="qed">∎</span></p>
+</details>
+<p>See the <a href="#app-forms">form evolution estimate</a>.</p></dd>
+
+<dt>Discrete form.</dt>
+<dd>Let \(C\ge0\), \(\Delta t&gt;0\), and let \(y_j,g_j\ge0\) satisfy \(y_{j+1}\le(1+C\Delta t)y_j+\Delta t\,g_j\) for \(j\ge0\). Then
 <div class="eq">\[\begin{aligned}
 y_n&\le (1+C\Delta t)^ny_0+\Delta t\sum_{j=0}^{n-1}(1+C\Delta t)^{n-1-j}g_j\\
 &\le e^{Cn\Delta t}y_0+\Delta t\sum_{j=0}^{n-1}e^{C(n-1-j)\Delta t}g_j.
-\end{aligned}\]</div></dd>
+\end{aligned}\]</div>
+<details class="proof"><summary>Proof of discrete Grönwall</summary>
+<p>Substitute the bound for \(y_n\) into the recurrence. Multiplication by \(1+C\Delta t\) increases every exponent by one and the new term has exponent zero. This proves the first inequality by induction from \(n=0\). The second uses \(1+C\Delta t\le e^{C\Delta t}\) and nonnegativity of the terms. <span class="qed">∎</span></p>
+</details></dd>
 </dl>
 
 <h3 id="app-compact40">A.5 Compactness and uniform convergence</h3>
-<p><strong>Dini's theorem.</strong> Let \(u_n\) be an increasing sequence in \(C(K;\mathbb R)\), where \(K\) is compact. If \(u_n\to u\) pointwise and \(u\) is continuous and finite, then the convergence is uniform. For each \(\eta&gt;0\) the sets \(\{x\in K:u(x)-u_n(x)&lt;\eta\}\) form an increasing open cover. A finite subcover exists, so the largest index in it already covers \(K\). For a decreasing sequence apply the argument to \(-u_n\).</p>
-<p><strong>Arzelà–Ascoli.</strong> On a compact metric space \(K\), a uniformly bounded, equicontinuous sequence of real continuous functions has a uniformly convergent subsequence. Choose finite \(1/j\)-nets for \(j\ge1\) and extract a diagonal subsequence converging on their countable union. For a given error tolerance, choose a net fine enough that equicontinuity bounds the differences between values at a point and its nearest net point. Convergence at the finitely many net points then makes the subsequence uniformly Cauchy.</p>
+<p><strong>Dini's theorem.</strong> Let \(K\) be compact. A monotone sequence in \(C(K;\mathbb R)\) that converges pointwise to \(u\in C(K;\mathbb R)\) converges uniformly.</p>
+<details class="proof"><summary>Proof of Dini's theorem</summary>
+<p>For an increasing sequence \(u_n\), the sets \(\{x\in K:u(x)-u_n(x)&lt;\eta\}\), for fixed \(\eta&gt;0\), form an increasing open cover. Take a finite subcover, then its largest index. All subsequent sets also cover \(K\), so \(\|u-u_n\|_\infty\le\eta\) for all sufficiently large \(n\). For a decreasing sequence apply this to \(-u_n\). <span class="qed">∎</span></p>
+</details>
+<p><strong>Arzelà–Ascoli.</strong> On a compact metric space \(K\), a uniformly bounded, equicontinuous sequence of real continuous functions has a uniformly convergent subsequence.</p>
+<details class="proof"><summary>Proof of Arzelà–Ascoli</summary><p>Choose finite \(1/j\)-nets for \(j\ge1\) and extract a diagonal subsequence converging on their countable union. For a given error tolerance, choose a net fine enough that equicontinuity bounds the differences between values at a point and its nearest net point. Convergence at the finitely many net points then makes the subsequence uniformly Cauchy. Its uniform limit is continuous. <span class="qed">∎</span></p></details>
 <p>If a relatively compact sequence has only one subsequential limit, the full sequence converges: otherwise a subsequence staying a positive distance from that limit would have a convergent subsequence. Diagonal extraction over a compact exhaustion yields local compactness. In the moving-pole arguments the compact sets must stay a positive distance from the excluded graph.</p>
 <p>For weak compactness and lower semicontinuity see <a href="#app-convergence">Appendix B.4</a>. Identify weak gradients against smooth tests, take the lower bound on each compact region, and exhaust the domain to bound the global nonnegative integral without assuming global unweighted gradient control.</p>
 </section>
